@@ -21,16 +21,25 @@ class SignInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
 
-        // Configure sign-in to request the user's ID, email address, and basic profile.
+        // Configure Google Sign-In options.
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .build()
 
+        // Build a GoogleSignInClient with the specified options.
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        // Example sign-in button setup
-        findViewById<Button>(R.id.sign_in_button).setOnClickListener {
-            signIn()
+        // Check for an already existing sign-in account.
+        // This check is important to avoid asking the user to sign in each time the app starts.
+        val alreadySignedInAccount = GoogleSignIn.getLastSignedInAccount(this)
+        if (alreadySignedInAccount != null) {
+            // User is already signed in. Handle the signed-in user's details.
+            updateUI(alreadySignedInAccount)
+        } else {
+            // Initialize the sign-in button and its click listener.
+            findViewById<Button>(R.id.sign_in_button).setOnClickListener {
+                signIn()
+            }
         }
     }
 
@@ -38,6 +47,9 @@ class SignInActivity : AppCompatActivity() {
         val signInIntent = googleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
+
+// Additional methods such as onActivityResult, handleSignInResult, and updateUI would remain the same.
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
