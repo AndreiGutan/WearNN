@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="sign_in_button" type="id">da</item>
+    <item name="sign_in_button" type="id"/>
 </resources>
