@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
+import com.example.wearnn.data.model.HealthStats
 
 @Composable
 fun HealthStatsDisplay(healthStats: HealthStats) {

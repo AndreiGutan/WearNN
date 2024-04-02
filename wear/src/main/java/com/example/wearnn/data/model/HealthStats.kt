@@ -1,3 +1,5 @@
+package com.example.wearnn.data.model
+
 // Place this inside a suitable package, for example, 'data/model'
 data class HealthStats(
     val steps: Int,
