@@ -1,6 +1,5 @@
 package com.example.wearnn.services
 
-import android.content.Context
 import com.google.android.gms.wearable.MessageClient
 import com.google.android.gms.wearable.MessageEvent
 import com.google.android.gms.wearable.Wearable

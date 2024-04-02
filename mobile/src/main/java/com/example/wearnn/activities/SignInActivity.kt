@@ -1,5 +1,6 @@
 package com.example.wearnn.activities
 
+import android.util.Log;
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -23,8 +24,10 @@ class SignInActivity : AppCompatActivity() {
 
         // Configure Google Sign-In options.
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.server_client_id))
             .requestEmail()
             .build()
+
 
         // Build a GoogleSignInClient with the specified options.
         googleSignInClient = GoogleSignIn.getClient(this, gso)
@@ -53,7 +56,7 @@ class SignInActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
+        Log.d("SignInActivity", "onActivityResult with requestCode: $requestCode, resultCode: $resultCode")
         if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             handleSignInResult(task)
@@ -64,21 +67,30 @@ class SignInActivity : AppCompatActivity() {
         try {
             val account = completedTask.getResult(ApiException::class.java)
             // Signed in successfully, show authenticated UI.
+            Log.d("SignInActivity", "Sign-in success. Account: ${account.email}")
             updateUI(account)
             WearOSCommunicationManager(this).sendAuthTokenToWear(account.idToken ?: "")
         } catch (e: ApiException) {
             // The ApiException status code indicates the detailed failure reason.
+            Log.d("SignInActivity", "signInResult:failed code=" + e.statusCode)
             updateUI(null)
         }
     }
 
     private fun updateUI(account: GoogleSignInAccount?) {
         if (account != null) {
-            // Navigate to your main activity or update the UI to show signed-in state
+            // User is signed in
+            val dashboardIntent = Intent(this, DashboardActivity::class.java).apply {
+                putExtra("userEmail", account.email)
+            }
+            startActivity(dashboardIntent)
+            finish()
         } else {
             // Show error or prompt to sign in again
+            // For example, you can make the sign-in button visible again and show a Toast message
         }
     }
+
 
     companion object {
         private const val RC_SIGN_IN = 9001

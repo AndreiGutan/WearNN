@@ -1,7 +1,6 @@
 package com.example.wearnn.utils
 
 import android.content.Context
-import com.google.android.gms.wearable.Node
 import com.google.android.gms.wearable.Wearable
 
 class WearOSCommunicationManager(private val context: Context) {
