@@ -6,6 +6,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.view.LayoutInflater
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
@@ -23,11 +24,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import androidx.wear.tooling.preview.devices.WearDevices
+import com.example.wearnn.databinding.FirstscreenBinding
+import com.example.wearnn.databinding.ThirdscrenBinding
 import com.example.wearnn.presentation.ui.composables.ProgressArc
 import com.example.wearnn.utils.PermissionUtils
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -77,14 +82,20 @@ fun MainScreen(healthStats: HealthStats) {
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier.padding(16.dp)
             ) {
-                ProgressArc(
-                    progress = progress,
-                    modifier = Modifier.size(100.dp)
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                Text(text = "Steps: ${healthStats.steps} / ${healthStats.dailyStepGoal}", style = MaterialTheme.typography.body1)
-                Text(text = "Standing Time: ${healthStats.standingMinutes} minutes", style = MaterialTheme.typography.body1)
-                Text(text = "Calories Burned: ${healthStats.caloriesBurned}", style = MaterialTheme.typography.body1)
+                AndroidView(
+                    factory = { ctx ->
+
+                        val inflater = LayoutInflater.from(ctx)
+                        val binding = ThirdscrenBinding.inflate(inflater)
+
+                        binding.tvTitle.text = "Today's Stats"
+                        binding.tvSteps.text = "Steps: ${healthStats.steps}"
+                        binding.tvStandingTime.text = "Standing Time: ${healthStats.standingMinutes} minutes"
+                        binding.tvCaloriesBurned.text = "Calories Burned: ${healthStats.caloriesBurned}"
+
+                        binding.root
+
+                    })
             }
         }
     }
