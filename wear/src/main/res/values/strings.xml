@@ -9,4 +9,6 @@
     <string name="complication_label">Example complication</string>
     <string name="server_client_id">77480085587-p525nqp3ja2jai6vvkk13vcq96j9nv06.apps.googleusercontent.com</string>
 
+    <string name="welcome_message">Hello, I am NNFitTrainer, your NN personal assistant.</string>
+    <string name="fetching_daily_activity">Fetching Daily Activity.</string>
 </resources>

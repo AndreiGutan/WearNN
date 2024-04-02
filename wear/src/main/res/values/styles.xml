@@ -1,7 +1,7 @@
 <resources>
 
     <style name="MainActivityTheme.Starting" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@android:color/white</item>
+        <item name="windowSplashScreenBackground">@android:color/darker_gray</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/logo_nn_splash</item>
         <item name="postSplashScreenTheme">@android:style/Theme.DeviceDefault</item>
     </style>

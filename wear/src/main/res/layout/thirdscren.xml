@@ -1,0 +1,64 @@
+<!-- activity_health_stats.xml -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="30dp">
+
+    <ProgressBar
+        android:id="@+id/progressBar5"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="169dp"
+        android:outlineAmbientShadowColor="@color/success_color"
+        android:outlineSpotShadowColor="@color/text_color_primary"
+        android:layout_height="14dp" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Today's Stats"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tvSteps"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Steps: 0"
+        android:textSize="12sp" />
+
+    <ProgressBar
+        android:id="@+id/progressBar6"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tvStandingTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Standing Time: 0 minutes"
+        android:textSize="12sp" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tvCaloriesBurned"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Calories Burned: 0"
+        android:textSize="12sp" />
+
+    <ProgressBar
+        android:id="@+id/progressBar7"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
