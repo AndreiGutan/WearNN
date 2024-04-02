@@ -4,6 +4,20 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        getByName("debug") {
+            storeFile = file("D:\\AndroidStudioProjects\\Keysotres\\WearNNKey.jks")
+            storePassword = "WearNNKey!"
+            keyPassword = "WearNNKey!"
+            keyAlias = "WearNNKey"
+        }
+        create("NNKey") {
+            storeFile = file("D:\\AndroidStudioProjects\\Keysotres\\WearNNKey.jks")
+            storePassword = "WearNNKey!"
+            keyPassword = "WearNNKey!"
+            keyAlias = "WearNNKey"
+        }
+    }
     namespace = "com.example.wearnn"
     compileSdkPreview = "TiramisuPrivacySandbox"
 
@@ -24,6 +38,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("NNKey")
         }
     }
     compileOptions {
