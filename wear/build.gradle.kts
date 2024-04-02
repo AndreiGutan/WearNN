@@ -38,6 +38,7 @@ android {
     buildFeatures {
         compose = true
         viewBinding = true
+        dataBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -73,4 +74,5 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     wearApp(project(":wear"))
+
 }
