@@ -1,0 +1,23 @@
+<resources>
+    <!-- Base application colors -->
+    <color name="background_color">#FFF0EAE2</color> <!-- Light beige for background -->
+    <color name="text_color_primary">#FF6200EE</color> <!-- Purple for primary text -->
+
+    <!-- Additional colors for variety and theming -->
+    <color name="accent_color">#FFD740</color> <!-- Bright yellow for accent elements -->
+    <color name="primary_dark">#5D4037</color> <!-- Dark brown for status bar and other dark surfaces -->
+    <color name="primary_light">#D7CCC8</color> <!-- Light brown for raised button backgrounds and card backgrounds -->
+
+    <!-- Functional colors for common UI tasks -->
+    <color name="error_color">#B00020</color> <!-- Red for errors -->
+    <color name="success_color">#4CAF50</color> <!-- Green for success messages -->
+    <color name="warning_color">#FFA000</color> <!-- Amber for warnings -->
+    <color name="info_color">#2196F3</color> <!-- Blue for informational messages -->
+
+    <!-- Text colors for contrast and visibility -->
+    <color name="text_color_secondary">#9E9E9E</color> <!-- Grey for secondary text -->
+    <color name="text_color_on_accent">#FFFFFF</color> <!-- White text on accent backgrounds -->
+    <color name="nn_color">#CA7903</color> <!-- Amber for warnings -->
+    <!-- Overlay color for dimming screen when a dialog appears -->
+    <color name="overlay_color">#66000000</color> <!-- Semi-transparent black -->
+</resources>

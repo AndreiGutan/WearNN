@@ -1,0 +1,37 @@
+<!-- activity_health_stats.xml -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="30dp"
+    android:background="@color/nn_color">
+
+
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Today's Stats"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tvSteps"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Steps: 0"
+        android:textSize="12sp" />
+    <ProgressBar
+        android:id="@+id/progressBar5"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="169dp"
+        android:outlineAmbientShadowColor="@color/info_color"
+        android:outlineSpotShadowColor="@color/info_color"
+        android:layout_height="55dp" />
+
+
+
+
+</LinearLayout>
