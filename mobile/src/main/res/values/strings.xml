@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Wear NN</string>
+    <string name="notificationCount">3</string>
+    <string name="good_morning">Good morning</string>
+    <string name="wear_nn_username">Wear NN userName</string>
 
     <string name="server_client_id">77480085587-p525nqp3ja2jai6vvkk13vcq96j9nv06.apps.googleusercontent.com</string>
 </resources>
