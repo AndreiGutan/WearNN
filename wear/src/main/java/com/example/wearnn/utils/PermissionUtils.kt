@@ -3,6 +3,7 @@ package com.example.wearnn.utils
 import android.Manifest
 import android.app.Activity
 import android.content.pm.PackageManager
+import android.os.Build
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -65,12 +66,17 @@ object PermissionUtils {
 
     fun checkAndRequestPermissions(activity: Activity) {
         // Aggregate all permissions to request
-        val allPermissions = mapOf(
+        val allPermissions = mutableMapOf(
             Manifest.permission.ACTIVITY_RECOGNITION to REQUEST_ACTIVITY_RECOGNITION,
             Manifest.permission.ACCESS_COARSE_LOCATION to REQUEST_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION to REQUEST_FINE_LOCATION,
             Manifest.permission.BODY_SENSORS to REQUEST_BODY_SENSORS
         )
+
+        // For Android Tiramisu (13) and above, add POST_NOTIFICATIONS permission
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            allPermissions[Manifest.permission.POST_NOTIFICATIONS] = REQUEST_PERMISSIONS_CODE
+        }
 
         val permissionsToRequest = allPermissions.filterKeys { permission ->
             ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED
@@ -78,7 +84,7 @@ object PermissionUtils {
 
         // Request all not granted permissions
         if (permissionsToRequest.isNotEmpty()) {
-            ActivityCompat.requestPermissions(activity, permissionsToRequest, REQUEST_PERMISSIONS_CODE )
+            ActivityCompat.requestPermissions(activity, permissionsToRequest, REQUEST_PERMISSIONS_CODE)
         } else {
             // All permissions are granted; you might want to proceed with operations that require permissions here
             // For example, initializing components that require these permissions

@@ -6,8 +6,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.wearnn.R
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.example.wearnn.utils.PreferencesHelper
 
 class DashboardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,20 +16,18 @@ class DashboardActivity : AppCompatActivity() {
         val userEmailTextView: TextView = findViewById(R.id.userEmailTextView)
         val logoutButton: Button = findViewById(R.id.logoutButton)
 
-        // Display the user's email
-        userEmailTextView.text = intent.getStringExtra("userEmail")
+        // Retrieve and display the user's email from Preferences (or intent extras)
+        userEmailTextView.text = PreferencesHelper.getUserEmail(applicationContext)
 
         logoutButton.setOnClickListener {
-            GoogleSignIn.getClient(
-                this,
-                GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
-            ).signOut().addOnCompleteListener {
-                // Return to SignInActivity after logging out
-                val signInIntent = Intent(this, SignInActivity::class.java)
-                startActivity(signInIntent)
-                finish()
-            }
-        }
-    }
+            // Only set the user as logged out. Do not clear the email or password.
+            PreferencesHelper.setLoggedIn(applicationContext, false)
 
+            // Redirect to LoginActivity
+            val loginIntent = Intent(this, LoginActivity::class.java)
+            startActivity(loginIntent)
+            finish() // Ensure DashboardActivity is closed
+        }
+
+    }
 }
