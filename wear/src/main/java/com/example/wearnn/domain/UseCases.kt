@@ -1,4 +1,3 @@
 package com.example.wearnn.domain
 
-class UseCases {
-}
+class UseCases

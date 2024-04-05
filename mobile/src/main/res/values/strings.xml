@@ -4,5 +4,10 @@
     <string name="good_morning">Good morning</string>
     <string name="wear_nn_username">Wear NN userName</string>
 
-    <string name="server_client_id">77480085587-p525nqp3ja2jai6vvkk13vcq96j9nv06.apps.googleusercontent.com</string>
+    <string name="username_hint">Username</string>
+    <string name="password_hint">Password</string>
+    <string name="login_button">Login</string>
+    <string name="signup_button">Sign Up</string>
+    <string name="goto_signup_button">Don\'t have an account? Sign up</string>
+
 </resources>

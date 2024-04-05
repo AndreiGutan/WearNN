@@ -3,21 +3,25 @@ package com.example.wearnn
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.wearnn.activities.SignInActivity
-import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.example.wearnn.activities.DashboardActivity
+import com.example.wearnn.activities.LoginActivity
+import com.example.wearnn.utils.PreferencesHelper
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        // Check if the user is already signed in
-        if (GoogleSignIn.getLastSignedInAccount(this) == null) {
-            // Not signed in, redirect to SignInActivity
-            val signInIntent = Intent(this, SignInActivity::class.java)
-            startActivity(signInIntent)
-            finish() // Close MainActivity so the user can't return here with the back button
+        // Check if user is logged in
+        if (PreferencesHelper.isLoggedIn(this)) {
+            // User is logged in, proceed to dashboard
+            val dashboardIntent = Intent(this, DashboardActivity::class.java)
+            startActivity(dashboardIntent)
+        } else {
+            // User is not logged in, redirect to login screen
+            val loginIntent = Intent(this, LoginActivity::class.java)
+            startActivity(loginIntent)
         }
-        // If the user is signed in, continue showing MainActivity
+        finish() // Close MainActivity
     }
 }
