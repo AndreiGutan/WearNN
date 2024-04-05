@@ -2,11 +2,19 @@ package com.example.wearnn.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.wearnn.R
 import com.example.wearnn.utils.PreferencesHelper
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.wearable.PutDataMapRequest
+import com.google.android.gms.wearable.PutDataRequest
+import com.google.android.gms.wearable.Wearable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class DashboardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,19 +23,46 @@ class DashboardActivity : AppCompatActivity() {
 
         val userEmailTextView: TextView = findViewById(R.id.userEmailTextView)
         val logoutButton: Button = findViewById(R.id.logoutButton)
+       // val syncWearButton: Button = findViewById(R.id.syncWearButton) // The new button
 
-        // Retrieve and display the user's email from Preferences (or intent extras)
         userEmailTextView.text = PreferencesHelper.getUserEmail(applicationContext)
 
         logoutButton.setOnClickListener {
-            // Only set the user as logged out. Do not clear the email or password.
             PreferencesHelper.setLoggedIn(applicationContext, false)
-
-            // Redirect to LoginActivity
-            val loginIntent = Intent(this, LoginActivity::class.java)
-            startActivity(loginIntent)
-            finish() // Ensure DashboardActivity is closed
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
         }
 
+        val syncButton: Button = findViewById(R.id.syncWearButton) // Assuming you've added this button
+        syncButton.setOnClickListener {
+            syncAccountToWear()
+        }
+
+
     }
+    companion object {
+        private const val ACCOUNT_SYNC_PATH = "/sync_account"
+    }
+
+    private fun syncAccountToWear() {
+        // Get the connected nodes (Wear devices)
+        val nodesTask = Wearable.getNodeClient(applicationContext).connectedNodes
+        nodesTask.addOnSuccessListener { nodes ->
+            val nodeId = nodes.firstOrNull()?.id // Assuming you're sending to the first connected device
+
+            nodeId?.let {
+                // Prepare and send the message
+                Wearable.getMessageClient(this).sendMessage(nodeId, ACCOUNT_SYNC_PATH, null).apply {
+                    addOnSuccessListener {
+                        Log.d("DashboardActivity", "Message sent successfully")
+                    }
+                    addOnFailureListener {
+                        Log.e("DashboardActivity", "Message failed", it)
+                    }
+                }
+            }
+        }
+    }
+
 }
+

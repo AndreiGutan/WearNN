@@ -79,19 +79,24 @@ class LoginActivity : AppCompatActivity() {
     private fun sendAccountInfoToWear(email: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val dataClient = Wearable.getDataClient(applicationContext)
+                val dataClient = Wearable.getDataClient(this@LoginActivity)
                 val putDataReq = PutDataMapRequest.create("/account_info").run {
                     dataMap.putString("accountEmail", email)
                     dataMap.putLong("timestamp", System.currentTimeMillis())
                     asPutDataRequest()
                 }
-                Tasks.await(dataClient.putDataItem(putDataReq))
-                Log.d("LoginActivity", "Data sent successfully to Wear")
+                dataClient.putDataItem(putDataReq).addOnSuccessListener {
+                    Log.d("LoginActivity", "Data sent successfully to Wear")
+                }.addOnFailureListener { e ->
+                    Log.e("LoginActivity", "Error sending account info to Wear", e)
+                }
             } catch (e: Exception) {
+                // Handle any errors here, such as logging or showing an error message
                 Log.e("LoginActivity", "Error sending account info to Wear", e)
             }
         }
     }
+
 
     private fun navigateToDashboard() {
         startActivity(Intent(this, DashboardActivity::class.java))

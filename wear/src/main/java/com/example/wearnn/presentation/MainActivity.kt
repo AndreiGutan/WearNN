@@ -141,8 +141,3 @@ fun DefaultPreview() {
 }
 
 
-private fun accessGoogleFitData() {
-    // Implementation for accessing Google Fit data goes here
-}
-
-

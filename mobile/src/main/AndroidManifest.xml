@@ -13,6 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WearNN"
+        android:enableOnBackInvokedCallback="true"
+
         tools:targetApi="31">
 
         <!-- LoginActivity is the entry point of the app and has the MAIN and LAUNCHER intent filters -->
