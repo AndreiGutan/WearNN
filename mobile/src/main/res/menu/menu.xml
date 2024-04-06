@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        app:showAsAction="always"
+        android:title=" "
+        android:icon="@drawable/menu_icon">
+
+        <menu>
+
+            <item
+                android:id="@+id/settings"
+                android:title="Settings"
+                app:showAsAction="never"
+                android:icon="@drawable/settings_icon"/>
+
+            <item
+                android:id="@+id/share"
+                android:title="Share"
+                app:showAsAction="never"
+                android:icon="@drawable/share_icon"/>
+
+            <item
+                android:id="@+id/aboutus"
+                android:title="About Us"
+                app:showAsAction="never"
+                android:icon="@drawable/baseline_info"/>
+
+            <item
+                android:id="@+id/logout"
+                android:title="logout"
+                app:showAsAction="never"
+                android:icon="@drawable/logout_icon"/>
+
+        </menu>
+    </item>
+</menu>
