@@ -38,9 +38,6 @@ class SignUpActivity : AppCompatActivity() {
                 // Set the user as logged in
                 PreferencesHelper.setUserEmail(this, email)  // Store the email on successful sign up
 
-                // Send account email to Wear OS device
-                sendAccountInfoToWear(this, email)
-
                 val intent = Intent(this, DashboardActivity::class.java)
                 startActivity(intent)
                 finish()
@@ -75,14 +72,4 @@ class SignUpActivity : AppCompatActivity() {
         return true
     }
 
-    private fun sendAccountInfoToWear(context: Context, accountEmail: String) {
-        val dataClient = Wearable.getDataClient(context)
-        val putDataReq = PutDataMapRequest.create("/account_info").apply {
-            dataMap.putString("accountEmail", accountEmail)
-            // Use a timestamp to ensure the data is treated as new each time
-            dataMap.putLong("timestamp", System.currentTimeMillis())
-        }.asPutDataRequest()
-
-        Tasks.await(dataClient.putDataItem(putDataReq))
-    }
 }

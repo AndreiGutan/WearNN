@@ -68,35 +68,12 @@ class LoginActivity : AppCompatActivity() {
             PreferencesHelper.setLoggedIn(this, true)
             PreferencesHelper.setUserEmail(this, email)
             Log.d("LoginDebug", "Login successful")
-            sendAccountInfoToWear(email)
             navigateToDashboard()
         } else {
             Log.d("LoginDebug", "Login failed")
             Toast.makeText(this, "Email or password is incorrect.", Toast.LENGTH_SHORT).show()
         }
     }
-
-    private fun sendAccountInfoToWear(email: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val dataClient = Wearable.getDataClient(this@LoginActivity)
-                val putDataReq = PutDataMapRequest.create("/account_info").run {
-                    dataMap.putString("accountEmail", email)
-                    dataMap.putLong("timestamp", System.currentTimeMillis())
-                    asPutDataRequest()
-                }
-                dataClient.putDataItem(putDataReq).addOnSuccessListener {
-                    Log.d("LoginActivity", "Data sent successfully to Wear")
-                }.addOnFailureListener { e ->
-                    Log.e("LoginActivity", "Error sending account info to Wear", e)
-                }
-            } catch (e: Exception) {
-                // Handle any errors here, such as logging or showing an error message
-                Log.e("LoginActivity", "Error sending account info to Wear", e)
-            }
-        }
-    }
-
 
     private fun navigateToDashboard() {
         startActivity(Intent(this, DashboardActivity::class.java))
