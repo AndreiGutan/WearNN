@@ -2,34 +2,47 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
+    <item
+        app:showAsAction="always"
+        android:title="@string/synchronize"
+        android:id="@+id/syncWearButton"
+        android:icon="@drawable/sync_icon"/>
+
+    <item
+        app:showAsAction="always"
+        android:title="@string/notifications"
+        android:id="@+id/imageNotification"
+        android:icon="@drawable/nn_icon_bell"/>
+
     <item
         app:showAsAction="always"
         android:title=" "
-        android:icon="@drawable/menu_icon">
+        android:icon="@drawable/baseline_menu">
 
         <menu>
 
             <item
                 android:id="@+id/settings"
-                android:title="Settings"
-                app:showAsAction="never"
+                android:title="@string/settings"
+                app:showAsAction="always"
                 android:icon="@drawable/settings_icon"/>
 
             <item
                 android:id="@+id/share"
-                android:title="Share"
+                android:title="@string/always"
                 app:showAsAction="never"
                 android:icon="@drawable/share_icon"/>
 
             <item
                 android:id="@+id/aboutus"
-                android:title="About Us"
-                app:showAsAction="never"
+                android:title="@string/about_us"
+                app:showAsAction="always"
                 android:icon="@drawable/baseline_info"/>
 
             <item
-                android:id="@+id/logout"
-                android:title="logout"
+                android:id="@+id/logoutButton"
+                android:title="@string/logout"
                 app:showAsAction="never"
                 android:icon="@drawable/logout_icon"/>
 

@@ -6,9 +6,4 @@
         <item name="postSplashScreenTheme">@android:style/Theme.DeviceDefault</item>
     </style>
 
-<!--    custom nn Splash theme-->
-    <style name="NNTheme" parent="@android:style/Theme.DeviceDefault">
-        <item name="android:windowBackground">@drawable/logo_nn_splash</item>
-    </style>
-
 </resources>
