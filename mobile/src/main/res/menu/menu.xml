@@ -5,12 +5,6 @@
 
     <item
         app:showAsAction="always"
-        android:title="@string/synchronize"
-        android:id="@+id/syncWearButton"
-        android:icon="@drawable/sync_icon"/>
-
-    <item
-        app:showAsAction="always"
         android:title="@string/notifications"
         android:id="@+id/menuNotification"
         android:icon="@drawable/nn_icon_bell"/>
@@ -30,9 +24,15 @@
 
             <item
                 android:id="@+id/share"
-                android:title="@string/always"
+                android:title="@string/share"
                 app:showAsAction="never"
                 android:icon="@drawable/share_icon"/>
+
+            <item
+                android:id="@+id/syncWearButton"
+                android:title="@string/synchronize"
+                app:showAsAction="never"
+                android:icon="@drawable/sync_icon"/>
 
             <item
                 android:id="@+id/aboutus"
