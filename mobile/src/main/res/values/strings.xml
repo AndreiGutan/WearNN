@@ -22,5 +22,6 @@
     <string name="wearoswalkingdata">wearOsWalkingData</string>
     <string name="wearosheartratedata">wearOsHeartRateData</string>
     <string name="wearosstandingdata">wearOsStandingData</string>
+    <string name="share">share</string>
 
 </resources>
