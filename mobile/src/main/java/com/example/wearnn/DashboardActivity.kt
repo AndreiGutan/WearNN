@@ -21,9 +21,12 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        val logoutButton: Button = findViewById(R.id.logoutButton)
         when(item.itemId){
-            R.id.syncWearButton -> syncAccountToWear()
+            R.id.syncWearButton -> {
+                syncAccountToWear()
+                Toast.makeText(this, "Sync Selected", Toast.LENGTH_SHORT).show()
+            }
+            R.id.menuNotification -> Toast.makeText(this, "Notifications Selected", Toast.LENGTH_SHORT).show()
             R.id.settings -> Toast.makeText(this, "Settings Selected", Toast.LENGTH_SHORT).show()
             R.id.share -> Toast.makeText(this, "Share Selected", Toast.LENGTH_SHORT).show()
             R.id.aboutus -> Toast.makeText(this, "About Us Selected", Toast.LENGTH_SHORT).show()
@@ -39,25 +42,8 @@ class DashboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_dashboard)
-
         val userEmailTextView: TextView = findViewById(R.id.userEmailTextView)
-//        val logoutButton: Button = findViewById(R.id.logoutButton)
-        // val syncWearButton: Button = findViewById(R.id.syncWearButton) // The new button
-
         userEmailTextView.text = PreferencesHelper.getUserEmail(applicationContext)
-
-//        logoutButton.setOnClickListener {
-//            PreferencesHelper.setLoggedIn(applicationContext, false)
-//            startActivity(Intent(this, LoginActivity::class.java))
-//            finish()
-//        }
-
-//        val syncButton: Button = findViewById(R.id.syncWearButton) // Assuming you've added this button
-//        syncButton.setOnClickListener {
-//            syncAccountToWear()
-//        }
-
-
     }
     companion object {
         private const val ACCOUNT_SYNC_PATH = "/sync_account"

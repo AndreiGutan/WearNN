@@ -15,5 +15,12 @@
     <string name="about_us">About Us</string>
     <string name="logout">logout</string>
     <string name="synchronize">synchronize</string>
+    <string name="activity_metrics">Activity Metrics</string>
+    <string name="totalSteps" />
+    <string name="walkindata">walkinData</string>
+    <string name="wearoswalingdata">wearOsWalingData</string>
+    <string name="wearoswalkingdata">wearOsWalkingData</string>
+    <string name="wearosheartratedata">wearOsHeartRateData</string>
+    <string name="wearosstandingdata">wearOsStandingData</string>
 
 </resources>

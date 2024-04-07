@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/wearOsWalking"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="220dp"
+        android:includeFontPadding="false"
+        android:text="@string/wearoswalkingdata"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/wearOsHeartRate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="220dp"
+        android:includeFontPadding="false"
+        android:text="@string/wearosheartratedata"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toStartOf="@id/wearOsStanding"
+        app:layout_constraintStart_toEndOf="@id/wearOsWalking"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/wearOsStanding"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="220dp"
+        android:includeFontPadding="false"
+        android:text="@string/wearosstandingdata"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/wearOsHeartRate"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--    <androidx.appcompat.widget.AppCompatImageView-->
+    <!--        android:id="@+id/walkingIcon"-->
+    <!--        android:layout_width="100dp"-->
+    <!--        android:layout_height="100dp"-->
+    <!--        android:layout_marginStart="20dp"-->
+    <!--        android:layout_marginTop="120dp"-->
+    <!--        android:padding="16dp"-->
+    <!--        android:src="@drawable/nn_icon_personhike"-->
+    <!--        app:layout_constraintDimensionRatio="W, 1:1"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintEnd_toStartOf="@id/heartRateIcon"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"/>-->
+
+    <!--    <androidx.appcompat.widget.AppCompatImageView-->
+    <!--        android:id="@+id/heartRateIcon"-->
+    <!--        android:layout_width="100dp"-->
+    <!--        android:layout_height="100dp"-->
+    <!--        android:layout_marginStart="20dp"-->
+    <!--        android:layout_marginTop="120dp"-->
+    <!--        android:padding="16dp"-->
+    <!--        android:src="@drawable/nn_icon_heart"-->
+    <!--        app:layout_constraintDimensionRatio="W, 1:1"-->
+    <!--        app:layout_constraintEnd_toStartOf="@id/standingIcon"-->
+    <!--        app:layout_constraintStart_toEndOf="@id/walkingIcon"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--    <androidx.appcompat.widget.AppCompatImageView-->
+    <!--        android:id="@+id/standingIcon"-->
+    <!--        android:layout_width="100dp"-->
+    <!--        android:layout_height="100dp"-->
+    <!--        android:layout_marginStart="20dp"-->
+    <!--        android:layout_marginTop="120dp"-->
+    <!--        android:layout_marginEnd="20dp"-->
+    <!--        android:padding="16dp"-->
+    <!--        android:src="@drawable/nn_icon_standing"-->
+    <!--        app:layout_constraintDimensionRatio="W, 1:1"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toEndOf="@id/heartRateIcon"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+
+
+
+    <!--    <androidx.appcompat.widget.AppCompatImageView-->
+    <!--        android:id="@+id/heartRateData"-->
+    <!--        android:layout_width="100dp"-->
+    <!--        android:layout_height="100dp"-->
+    <!--        android:layout_marginStart="20dp"-->
+    <!--        android:layout_marginTop="20dp"-->
+    <!--        android:padding="16dp"-->
+    <!--        android:src="@drawable/nn_icon_heart"-->
+    <!--        app:layout_constraintDimensionRatio="W, 1:1"-->
+    <!--        app:layout_constraintStart_toEndOf="@id/walkingData"-->
+    <!--        app:layout_constraintEnd_toStartOf="@id/standingData"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/metricsTitle"/>-->
+
+    <!--    <androidx.appcompat.widget.AppCompatImageView-->
+    <!--        android:id="@+id/standingData"-->
+    <!--        android:layout_width="100dp"-->
+    <!--        android:layout_height="100dp"-->
+    <!--        android:layout_marginStart="20dp"-->
+    <!--        android:layout_marginTop="20dp"-->
+    <!--        android:padding="16dp"-->
+    <!--        android:src="@drawable/nn_icon_standing"-->
+    <!--        app:layout_constraintDimensionRatio="W, 1:1"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toEndOf="@id/heartRateData"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/metricsTitle"/>-->
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
