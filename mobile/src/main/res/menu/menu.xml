@@ -12,7 +12,7 @@
     <item
         app:showAsAction="always"
         android:title="@string/notifications"
-        android:id="@+id/imageNotification"
+        android:id="@+id/menuNotification"
         android:icon="@drawable/nn_icon_bell"/>
 
     <item
