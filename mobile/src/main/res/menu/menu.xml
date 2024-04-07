@@ -5,6 +5,12 @@
 
     <item
         app:showAsAction="always"
+        android:title="@string/synchronize"
+        android:id="@+id/syncWearButton"
+        android:icon="@drawable/sync_icon"/>
+
+    <item
+        app:showAsAction="always"
         android:title="@string/notifications"
         android:id="@+id/imageNotification"
         android:icon="@drawable/nn_icon_bell"/>

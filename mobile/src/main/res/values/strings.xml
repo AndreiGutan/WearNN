@@ -14,5 +14,6 @@
     <string name="always">always</string>
     <string name="about_us">About Us</string>
     <string name="logout">logout</string>
+    <string name="synchronize">synchronize</string>
 
 </resources>

@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -22,11 +21,16 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        val logoutButton: Button = findViewById(R.id.logoutButton)
         when(item.itemId){
+            R.id.syncWearButton -> syncAccountToWear()
             R.id.settings -> Toast.makeText(this, "Settings Selected", Toast.LENGTH_SHORT).show()
             R.id.share -> Toast.makeText(this, "Share Selected", Toast.LENGTH_SHORT).show()
             R.id.aboutus -> Toast.makeText(this, "About Us Selected", Toast.LENGTH_SHORT).show()
-            R.id.logoutButton -> Toast.makeText(this, "Log out Selected", Toast.LENGTH_SHORT).show()
+            R.id.logoutButton ->  { PreferencesHelper.setLoggedIn(applicationContext, false)
+                                    startActivity(Intent(this, LoginActivity::class.java))
+                                    finish()
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -37,21 +41,21 @@ class DashboardActivity : AppCompatActivity() {
         setContentView(R.layout.activity_dashboard)
 
         val userEmailTextView: TextView = findViewById(R.id.userEmailTextView)
-        val logoutButton: Button = findViewById(R.id.logoutButton)
+//        val logoutButton: Button = findViewById(R.id.logoutButton)
         // val syncWearButton: Button = findViewById(R.id.syncWearButton) // The new button
 
         userEmailTextView.text = PreferencesHelper.getUserEmail(applicationContext)
 
-        logoutButton.setOnClickListener {
-            PreferencesHelper.setLoggedIn(applicationContext, false)
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
-        }
+//        logoutButton.setOnClickListener {
+//            PreferencesHelper.setLoggedIn(applicationContext, false)
+//            startActivity(Intent(this, LoginActivity::class.java))
+//            finish()
+//        }
 
-        val syncButton: Button = findViewById(R.id.syncWearButton) // Assuming you've added this button
-        syncButton.setOnClickListener {
-            syncAccountToWear()
-        }
+//        val syncButton: Button = findViewById(R.id.syncWearButton) // Assuming you've added this button
+//        syncButton.setOnClickListener {
+//            syncAccountToWear()
+//        }
 
 
     }
@@ -79,20 +83,5 @@ class DashboardActivity : AppCompatActivity() {
             }
         }
     }
-
-//    override  fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.menu,menu)
-//        return super.onCreateOptionsMenu(menu)
-//    }
-
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        when(item.itemId){
-//            R.id.settings -> Toast.makeText(this, "Settings Selected", Toast.LENGTH_SHORT).show()
-//            R.id.share -> Toast.makeText(this, "Share Selected", Toast.LENGTH_SHORT).show()
-//            R.id.aboutus -> Toast.makeText(this, "About Us Selected", Toast.LENGTH_SHORT).show()
-//            R.id.logout -> Toast.makeText(this, "Log out Selected", Toast.LENGTH_SHORT).show()
-//        }
-//        return super.onOptionsItemSelected(item)
-//    }
 }
 
