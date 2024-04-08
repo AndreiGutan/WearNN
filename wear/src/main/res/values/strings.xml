@@ -15,4 +15,6 @@
 
     <string name="welcome_message">Hello, I am NNFitTrainer, your NN personal assistant.</string>
     <string name="fetching_daily_activity">Fetching Daily Activity.</string>
+    <string name="confirm_sync_with_email">Do you want to sync with %1$s?</string>
+
 </resources>

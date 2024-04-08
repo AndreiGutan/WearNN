@@ -8,6 +8,9 @@ object PreferencesHelper {
     private const val USER_EMAIL = "userEmail"
     private const val USER_PASSWORD = "userPassword"
 
+    private const val PREF_NAME = "WearAppPrefs"
+    private const val KEY_ACCOUNT_SYNCED = "account_synced"
+
     fun isLoggedIn(context: Context): Boolean {
         val sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         return sharedPreferences.getBoolean(IS_LOGGED_IN, false)
@@ -36,5 +39,15 @@ object PreferencesHelper {
     fun setUserPassword(context: Context, password: String) {
         val sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         sharedPreferences.edit().putString(USER_PASSWORD, password).apply()
+    }
+
+    fun isAccountSyncedWithWear(context: Context): Boolean {
+        val sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        return sharedPreferences.getBoolean(KEY_ACCOUNT_SYNCED, false)
+    }
+
+    fun setAccountSyncedWithWear(context: Context, synced: Boolean) {
+        val sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        sharedPreferences.edit().putBoolean(KEY_ACCOUNT_SYNCED, synced).apply()
     }
 }
