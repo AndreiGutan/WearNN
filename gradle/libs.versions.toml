@@ -1,11 +1,13 @@
 [versions]
 agp = "8.3.1"
+androidxWearable = "2.8.0"
 kotlin = "1.9.0"
 coreKtx = "1.12.0"
 junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
 appcompat = "1.6.1"
+playServicesFitness = "21.1.0"
 playServicesWearable = "18.1.0"
 material = "1.7.0"
 activity = "1.8.2"
@@ -20,14 +22,29 @@ tilesMaterial = "1.3.0"
 horologistComposeTools = "0.6.6"
 horologistTiles = "0.6.6"
 watchfaceComplicationsDataSourceKtx = "1.2.1"
+wear = "1.3.0"
+wearable = "2.9.0"
+wearInput = "1.1.0"
+wearPhoneInteractions = "1.0.1"
+wearToolingPreview = "1.0.0"
 
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-wear = { module = "androidx.wear:wear", version.ref = "wear" }
+androidx-wear-input = { module = "androidx.wear:wear-input", version.ref = "wearInput" }
+androidx-wear-input-testing = { module = "androidx.wear:wear-input-testing", version.ref = "wearInput" }
+androidx-wear-ongoing = { module = "androidx.wear:wear-ongoing", version.ref = "wearToolingPreview" }
+androidx-wear-phone-interactions = { module = "androidx.wear:wear-phone-interactions", version.ref = "wearPhoneInteractions" }
+androidx-wear-remote-interactions = { module = "androidx.wear:wear-remote-interactions", version.ref = "wearToolingPreview" }
+androidx-wear-tooling-preview = { module = "androidx.wear:wear-tooling-preview", version.ref = "wearToolingPreview" }
+androidx-wearable = { module = "androidx.wearable:wearable", version.ref = "wearable" }
+androidx-wearable-v280 = { module = "androidx.wearable:wearable", version.ref = "androidxWearable" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+play-services-fitness = { module = "com.google.android.gms:play-services-fitness", version.ref = "playServicesFitness" }
 play-services-wearable = { group = "com.google.android.gms", name = "play-services-wearable", version.ref = "playServicesWearable" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
