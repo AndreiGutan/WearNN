@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- Required to check for connected devices -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-feature android:name="android.hardware.type.watch" />
 
     <application
         android:allowBackup="true"
@@ -19,7 +22,8 @@
 
         <!-- LoginActivity is the entry point of the app and has the MAIN and LAUNCHER intent filters -->
         <activity android:name=".activities.LoginActivity"
-            android:exported="true">
+            android:exported="true"
+            android:taskAffinity="">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -28,11 +32,13 @@
 
         <!-- SignUpActivity does not have intent filters since it's not a direct entry point -->
         <activity android:name=".activities.SignUpActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:taskAffinity="" />
 
         <!-- DashboardActivity to display user data or other information after login -->
         <activity android:name=".activities.DashboardActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:taskAffinity="" />
 
         <!-- Any other activities you have -->
 
