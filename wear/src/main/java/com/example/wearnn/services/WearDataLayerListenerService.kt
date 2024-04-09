@@ -1,5 +1,4 @@
 package com.example.wearnn.services
-
 import android.content.Context
 import android.content.Intent
 import android.util.Log
