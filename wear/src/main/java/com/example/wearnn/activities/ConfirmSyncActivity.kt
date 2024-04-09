@@ -1,18 +1,18 @@
 package com.example.wearnn.activities
 
-import kotlinx.coroutines.tasks.await
-
 import android.os.Bundle
 import android.app.Activity
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.example.wearnn.R
+import com.example.wearnn.utils.PreferencesHelper
 import com.google.android.gms.wearable.Wearable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.tasks.await
 
 class ConfirmSyncActivity : Activity() {
 
@@ -28,9 +28,12 @@ class ConfirmSyncActivity : Activity() {
         AlertDialog.Builder(this).apply {
             setView(dialogView)
             setPositiveButton("Yes") { _, _ ->
-                // Use coroutines to run network operation in the background
                 CoroutineScope(Dispatchers.IO).launch {
                     sendMessageToMobile("/account_sync", "confirmed".toByteArray())
+                    saveEmailToStorage(emailToSync) // Save the email once confirmed using PreferencesHelper
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(applicationContext, "Syncing account...", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
             setNegativeButton("No") { _, _ ->
@@ -44,8 +47,9 @@ class ConfirmSyncActivity : Activity() {
         for (node in nodes) {
             Wearable.getMessageClient(applicationContext).sendMessage(node.id, path, message).await()
         }
-        withContext(Dispatchers.Main) {
-            Toast.makeText(applicationContext, "Message sent to mobile.", Toast.LENGTH_SHORT).show()
-        }
+    }
+
+    private fun saveEmailToStorage(email: String) {
+        PreferencesHelper.setUserEmail(applicationContext, email)
     }
 }

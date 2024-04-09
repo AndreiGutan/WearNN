@@ -26,6 +26,10 @@ class MessageLayerListenerService : WearableListenerService() {
                     val intent = Intent("com.example.ACTION_SYNC_CONFIRMED")
                     sendBroadcast(intent)
                 }
+                else
+                {
+                    PreferencesHelper.setAccountSyncedWithWear(applicationContext, false)
+                }
             }
         }
     }

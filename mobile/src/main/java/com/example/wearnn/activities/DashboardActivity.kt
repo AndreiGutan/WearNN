@@ -15,22 +15,17 @@ import com.google.android.gms.wearable.Node
 import com.google.android.gms.wearable.Wearable
 
 class DashboardActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_dashboard)
+        // Initialize your UI here
+
+    }
     override fun onResume() {
         super.onResume()
         checkForConnectedWearDevices()
     }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_dashboard)
-
-        // Display the user email on the dashboard
-        val userEmailTextView: TextView = findViewById(R.id.userEmailTextView)
-        userEmailTextView.text = PreferencesHelper.getUserEmail(applicationContext)
-
-        // Automatically check for connected Wear devices and account sync status
-        checkForConnectedWearDevices()
-    }
-
     private fun checkForConnectedWearDevices() {
         val nodeClient = Wearable.getNodeClient(this)
         nodeClient.connectedNodes.addOnSuccessListener { nodes ->
@@ -82,7 +77,7 @@ class DashboardActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.syncWearButton -> {
-                syncAccountToWear()
+                checkForConnectedWearDevices()
                 Toast.makeText(this, "Sync Selected", Toast.LENGTH_SHORT).show()
             }
             R.id.menuNotification -> Toast.makeText(this, "Notifications Selected", Toast.LENGTH_SHORT).show()
