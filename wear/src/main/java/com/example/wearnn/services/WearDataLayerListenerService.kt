@@ -1,9 +1,9 @@
 package com.example.wearnn.services
-import android.content.Context
+
 import android.content.Intent
 import android.util.Log
 import com.example.wearnn.activities.ConfirmSyncActivity
-
+import com.example.wearnn.utils.PreferencesHelper
 import com.google.android.gms.wearable.MessageEvent
 import com.google.android.gms.wearable.WearableListenerService
 
@@ -15,11 +15,12 @@ class WearDataLayerListenerService : WearableListenerService() {
             val receivedEmail = String(messageEvent.data, Charsets.UTF_8)
             Log.d("WearService", "Received user email: $receivedEmail")
 
-            val storedEmail = getStoredEmail() // Implement this method
+            val storedEmail = PreferencesHelper.getUserEmail(applicationContext)
 
             if (storedEmail.isNullOrBlank() || storedEmail != receivedEmail) {
                 // No email is stored, or the stored email does not match the received email
                 showConfirmSyncActivity(receivedEmail)
+                Log.d("WearService", "No email is stored, or it doesn't match: $storedEmail")
             } else {
                 // Email matches, account is already synced
                 Log.d("WearService", "Account is already synced with $storedEmail")
@@ -35,15 +36,7 @@ class WearDataLayerListenerService : WearableListenerService() {
         startActivity(intent)
     }
 
-    private fun getStoredEmail(): String? {
-        // Implement fetching the stored email, possibly using SharedPreferences
-        // For example:
-        val prefs = applicationContext.getSharedPreferences("YourPrefName", Context.MODE_PRIVATE)
-        return prefs.getString("userEmailKey", null)
-    }
-
     companion object {
         private const val ACCOUNT_SYNC_PATH = "/sync_account"
     }
 }
-

@@ -3,12 +3,11 @@ package com.example.wearnn.utils
 import android.content.Context
 
 object PreferencesHelper {
-    private const val PREFS_NAME = "wearnnPrefs"
+    const val PREFS_NAME = "WearAppPrefs"
     private const val IS_LOGGED_IN = "isLoggedIn"
-    private const val USER_EMAIL = "userEmail"
+    const val USER_EMAIL = "userEmail"
     private const val USER_PASSWORD = "userPassword"
 
-    private const val PREF_NAME = "WearAppPrefs"
     private const val KEY_ACCOUNT_SYNCED = "account_synced"
 
     fun isLoggedIn(context: Context): Boolean {
@@ -42,12 +41,12 @@ object PreferencesHelper {
     }
 
     fun isAccountSyncedWithWear(context: Context): Boolean {
-        val sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        val sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         return sharedPreferences.getBoolean(KEY_ACCOUNT_SYNCED, false)
     }
 
     fun setAccountSyncedWithWear(context: Context, synced: Boolean) {
-        val sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        val sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         sharedPreferences.edit().putBoolean(KEY_ACCOUNT_SYNCED, synced).apply()
     }
 }
