@@ -6,4 +6,9 @@
         <item name="postSplashScreenTheme">@android:style/Theme.DeviceDefault</item>
     </style>
 
+    <!-- Define a theme for Wear OS that extends from AppCompat -->
+    <style name="Theme.WearAppCompat" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customizations for AppCompat theme on Wear OS -->
+        <!-- Wear OS specific color scheme adjustments could go here -->
+    </style>
 </resources>
