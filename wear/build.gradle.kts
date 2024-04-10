@@ -4,6 +4,9 @@ plugins {
 }
 
 android {
+    buildFeatures {
+        compose = true
+    }
     signingConfigs {
         getByName("debug") {
             storeFile = file("D:\\AndroidStudioProjects\\Keysotres\\WearNNKey.jks")
@@ -72,6 +75,7 @@ dependencies {
     implementation("androidx.wear:wear-tooling-preview:1.0.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.3.9")
+    implementation(libs.androidx.compose.navigation)
     implementation(libs.play.services.wearable)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)

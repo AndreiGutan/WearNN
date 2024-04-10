@@ -1,4 +1,4 @@
-package com.example.wearnn.presentation.ui.composables
+package com.example.wearnn.presentation.ui.composables.StatsPerDay
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.size
@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ProgressArc(
+fun Screen1Day(
     progress: Float, // Current progress as a percentage (0f to 1f)
     modifier: Modifier = Modifier
 ) {
