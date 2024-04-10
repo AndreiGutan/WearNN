@@ -4,7 +4,10 @@ plugins {
 }
 
 android {
-    signingConfigs {
+    buildFeatures {
+        compose = true
+    }
+        signingConfigs {
         getByName("debug") {
             storeFile = file("D:\\AndroidStudioProjects\\Keysotres\\WearNNKey.jks")
             storePassword = "WearNNKey!"
