@@ -1,27 +1,19 @@
 package com.example.wearnn.activities
 
-import HealthStatsDisplay
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.wear.compose.material.MaterialTheme
-import androidx.wear.compose.material.Scaffold
-import androidx.wear.compose.material.Text
-import androidx.wear.compose.navigation.SwipeDismissableNavHost
-import androidx.wear.compose.navigation.composable
-import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import com.example.wearnn.data.model.HealthStats
 import com.example.wearnn.presentation.theme.WearNNTheme
+import com.example.wearnn.presentation.ui.composables.StatsPerDay.HealthData
 import com.example.wearnn.presentation.ui.composables.StatsPerDay.Screen1Day
 import com.example.wearnn.presentation.ui.composables.StatsPerDay.Screen2Day
 import com.example.wearnn.presentation.ui.composables.StatsPerDay.Screen3Day
@@ -65,9 +57,20 @@ class MainActivity : ComponentActivity() {
                 caloriesBurned = 300,
                 dailyStepGoal = 10000
             )
+            val customRed = Color(0xFFf82024) // Replace with your custom color value
+            val customYellow = Color(0xFFf7d01b) // Replace with your custom color value
+            val customBlue = Color(0xFF007af6) // Replace with your custom color value
+
             when (page) {
 
-                0 -> Screen1Day(0.7f)
+                0 -> Screen1Day(
+                    healthData = listOf(
+                        HealthData(progress = 1700, goal = 2000, color = customRed),
+                        HealthData(progress = 300, goal = 1000, color = customYellow),
+                        HealthData(progress = 7, goal = 100, color = customBlue)
+                    )
+                )
+
                 1 -> Screen2Day(sampleHealthStats)
                 2 -> Screen3Day(sampleHealthStats)
             }
