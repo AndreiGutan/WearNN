@@ -4,17 +4,8 @@ plugins {
 }
 
 android {
-    buildFeatures {
-        compose = true
-    }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.11"
-    }
 
-    kotlinOptions {
-        jvmTarget = "19"
-    }
         signingConfigs {
         getByName("debug") {
             storeFile = file("D:\\AndroidStudioProjects\\Keysotres\\WearNNKey.jks")
@@ -52,9 +43,23 @@ android {
             signingConfig = signingConfigs.getByName("NNKey")
         }
     }
+
+    buildFeatures {
+        compose = true
+        viewBinding = true
+        dataBinding = true
+    }
+    composeOptions {
+        // Update the Kotlin Compiler Extension Version to match the Kotlin version needed
+        kotlinCompilerExtensionVersion = "1.5.11"
+    }
+    kotlinOptions {
+        jvmTarget = "19"
+    }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_19
+        targetCompatibility = JavaVersion.VERSION_19
     }
 
     buildToolsVersion = "34.0.0"
@@ -69,8 +74,10 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.ui)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    wearApp(project(":wear"))
+    implementation(project(":wear"))
+
 }

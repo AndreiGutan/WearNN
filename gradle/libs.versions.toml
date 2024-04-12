@@ -2,7 +2,7 @@
 agp = "8.3.1"
 androidxWearable = "2.8.0"
 composeNavigation = "1.3.1"
-kotlin = "1.9.0"
+kotlin = "1.9.23"
 coreKtx = "1.12.0"
 junit = "4.13.2"
 junitVersion = "1.1.5"
@@ -28,6 +28,7 @@ wearable = "2.9.0"
 wearInput = "1.1.0"
 wearPhoneInteractions = "1.0.1"
 wearToolingPreview = "1.0.0"
+ui = "1.6.5"
 
 
 [libraries]
@@ -66,6 +67,7 @@ androidx-tiles-material = { group = "androidx.wear.tiles", name = "tiles-materia
 horologist-compose-tools = { group = "com.google.android.horologist", name = "horologist-compose-tools", version.ref = "horologistComposeTools" }
 horologist-tiles = { group = "com.google.android.horologist", name = "horologist-tiles", version.ref = "horologistTiles" }
 androidx-watchface-complications-data-source-ktx = { group = "androidx.wear.watchface", name = "watchface-complications-data-source-ktx", version.ref = "watchfaceComplicationsDataSourceKtx" }
+ui = { group = "androidx.compose.ui", name = "ui", version.ref = "ui" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

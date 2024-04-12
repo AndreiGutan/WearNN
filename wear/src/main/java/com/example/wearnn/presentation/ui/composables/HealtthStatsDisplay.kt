@@ -12,7 +12,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Text
 import com.example.wearnn.data.model.HealthStats
-import com.example.wearnn.databinding.ThirdscrenBinding
+
 
 
 // this is just a demo to show how you can inflate xml's into Composable
