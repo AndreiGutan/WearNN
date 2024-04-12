@@ -1,5 +1,6 @@
 package com.example.wearnn.presentation.ui.composables.StatsPerDay
 
+import HealthData
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,14 +23,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.Text
 import com.example.wearnn.R
+import com.example.wearnn.utils.AppFonts
 
-data class HealthData(val progress: Int, val goal: Int, val color: Color)
+
 
 @Composable
 fun Screen1Day(healthData: List<HealthData>) {
     val strokeWidth = 50f // define the stroke width
     val spaceBetweenArcs = 7f // define space between arcs
-    val bebasNeueFont = FontFamily(Font(R.font.bebas_neue_font))
 
     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
         Canvas(modifier = Modifier.size(300.dp)) {  // Adjust size as needed
@@ -67,8 +68,8 @@ fun Screen1Day(healthData: List<HealthData>) {
         Column(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(bottom = 6.dp), // Adjust the padding as needed to move the texts further down
-            verticalArrangement = Arrangement.spacedBy(4.dp), // This adds space between texts
+                .padding(bottom = 0.dp), // Adjust the padding as needed to move the texts further down
+            verticalArrangement = Arrangement.spacedBy(-3.dp), // This adds space between texts
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Reverse the order of healthData if needed by using `reversed()`
@@ -76,8 +77,8 @@ fun Screen1Day(healthData: List<HealthData>) {
                 Text(
                     text = "${data.progress}",
                     color = data.color,
-                    fontFamily = bebasNeueFont,
-                    style = TextStyle(fontSize = 20.sp) // Specify other text styles if needed
+                    fontFamily = AppFonts.bebasNeueFont,
+                    style = TextStyle(fontSize = 26.sp) // Specify other text styles if needed
                 )
             }
         }

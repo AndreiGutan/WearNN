@@ -1,34 +1,67 @@
-package com.example.wearnn.presentation.ui.composables.StatsPerWeek
-
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
-import androidx.wear.compose.material.MaterialTheme
-import androidx.wear.compose.material.Text
-import com.example.wearnn.data.model.HealthStats
-
-
-// this is just a demo to show how you can inflate xml's into Composable
 @Composable
-fun Screen1Week(healthStats: HealthStats) {
-    Column(
-        modifier = Modifier.fillMaxSize().padding(8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(
-            text = "Screen1Week Stats",
-            style = MaterialTheme.typography.title1,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-        Text(text = "Steps: ${healthStats.steps}", style = MaterialTheme.typography.body1)
-        Text(text = "Standing Time: ${healthStats.standingMinutes} minutes", style = MaterialTheme.typography.body1)
-        Text(text = "Calories Burned: ${healthStats.caloriesBurned}", style = MaterialTheme.typography.body1)
+fun MiniDayStats(healthData: List<HealthData>, modifier: Modifier = Modifier) {
+    val strokeWidth = 6f  // Reduced stroke width for thinner arcs
+    val spaceBetweenArcs = 1f  // Minimal space between arcs for better visual separation
+
+    Box(contentAlignment = Alignment.Center, modifier = modifier.size(25.dp)) {  // Adjusted size for slightly bigger arcs
+        Canvas(modifier = Modifier.fillMaxSize()) {
+            var outerRadius = (size.minDimension - strokeWidth * 2f) / 2  // Adjust outer radius for new size
+            healthData.forEachIndexed { index, data ->
+                val startAngle = -225f
+                val sweepAngle = 270f * data.progress / data.goal
+
+                // Draw the background arc
+                drawArc(
+                    color = data.color.copy(alpha = 0.3f),
+                    startAngle = startAngle,
+                    sweepAngle = 270f,
+                    useCenter = false,
+                    topLeft = center - Offset(outerRadius, outerRadius),
+                    size = Size(outerRadius * 2, outerRadius * 2),
+                    style = Stroke(width = strokeWidth)
+                )
+                // Draw the progress arc
+                drawArc(
+                    color = data.color,
+                    startAngle = startAngle,
+                    sweepAngle = sweepAngle,
+                    useCenter = false,
+                    topLeft = center - Offset(outerRadius, outerRadius),
+                    size = Size(outerRadius * 2, outerRadius * 2),
+                    style = Stroke(width = strokeWidth)
+                )
+                outerRadius -= (strokeWidth + spaceBetweenArcs)
+            }
+        }
     }
 }
 
+@Composable
+fun Screen1Week(weeklyData: List<List<HealthData>>) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,  // Center content vertically
+        horizontalAlignment = Alignment.CenterHorizontally  // Center content horizontally
+    ) {
+        Row(
+            modifier = Modifier.horizontalScroll(rememberScrollState()).padding(all = 8.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly  // Evenly space items
+        ) {
+            weeklyData.forEach { dayData ->
+                MiniDayStats(healthData = dayData, modifier = Modifier.padding(horizontal = 2.dp))  // Adjust horizontal padding if needed
+            }
+        }
+    }
+}
