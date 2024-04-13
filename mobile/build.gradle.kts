@@ -21,7 +21,7 @@ android {
         }
     }
     namespace = "com.example.wearnn"
-    compileSdkPreview = "TiramisuPrivacySandbox"
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.wearnn"
@@ -78,6 +78,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation(project(":wear"))
+    wearApp(project(":wear"))
 
 }

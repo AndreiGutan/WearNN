@@ -4,9 +4,7 @@ plugins {
 }
 
 android {
-    buildFeatures {
-        compose = true
-    }
+
     signingConfigs {
         getByName("debug") {
             storeFile = file("D:\\AndroidStudioProjects\\Keysotres\\WearNNKey.jks")
@@ -22,7 +20,7 @@ android {
         }
     }
     namespace = "com.example.wearnn"
-    compileSdkPreview = "TiramisuPrivacySandbox"
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.wearnn"
@@ -74,8 +72,8 @@ android {
 dependencies {
     implementation("com.google.android.gms:play-services-fitness:21.1.0")
     implementation("androidx.wear:wear-tooling-preview:1.0.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.3.9")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.8.0")
     implementation(libs.androidx.compose.navigation)
     implementation(libs.play.services.wearable)
     implementation(platform(libs.androidx.compose.bom))
