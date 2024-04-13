@@ -4,9 +4,7 @@ plugins {
 }
 
 android {
-    buildFeatures {
-        compose = true
-    }
+
     signingConfigs {
         getByName("debug") {
             storeFile = file("D:\\AndroidStudioProjects\\Keysotres\\WearNNKey.jks")
@@ -22,7 +20,7 @@ android {
         }
     }
     namespace = "com.example.wearnn"
-    compileSdkPreview = "TiramisuPrivacySandbox"
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.wearnn"
@@ -47,20 +45,21 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_19
+        targetCompatibility = JavaVersion.VERSION_19
     }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
+
     buildFeatures {
         compose = true
-        viewBinding = true
-        dataBinding = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        // Update the Kotlin Compiler Extension Version to match the Kotlin version needed
+        kotlinCompilerExtensionVersion = "1.5.11"
     }
+    kotlinOptions {
+        jvmTarget = "19"
+    }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -73,8 +72,8 @@ android {
 dependencies {
     implementation("com.google.android.gms:play-services-fitness:21.1.0")
     implementation("androidx.wear:wear-tooling-preview:1.0.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.3.9")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.8.0")
     implementation(libs.androidx.compose.navigation)
     implementation(libs.play.services.wearable)
     implementation(platform(libs.androidx.compose.bom))
@@ -95,6 +94,5 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    wearApp(project(":wear"))
 
 }
