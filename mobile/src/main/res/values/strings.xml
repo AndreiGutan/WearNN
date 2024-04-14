@@ -23,5 +23,12 @@
     <string name="wearosheartratedata">wearOsHeartRateData</string>
     <string name="wearosstandingdata">wearOsStandingData</string>
     <string name="share">share</string>
+    <string name="insurance_payment">Insurance Payment</string>
+    <string name="insurance_payment_info">Insurance payment Info</string>
+    <string name="monthly_payment">Monthly Payment:</string>
+    <string name="activity_discount">Activity discount:</string>
+    <string name="_12345">12345</string>
+    <string name="_12">12</string>
+    <string name="_1000">1000</string>
 
 </resources>

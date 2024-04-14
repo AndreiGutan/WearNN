@@ -14,8 +14,11 @@
     <!--    metric icons-->
     <include layout="@layout/metric_icons"/>
 
-<!--    &lt;!&ndash;    metric cata&ndash;&gt;-->
-    <include layout="@layout/wear_os_data"/>
+<!--  metric data from watch-->
+    <include layout="@layout/wear_os_bio_data"/>
+
+    <!--  Contractual Info-->
+    <include layout="@layout/life_insurance_cnt_discount"/>
 
 
 

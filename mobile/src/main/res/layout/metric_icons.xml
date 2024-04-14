@@ -6,6 +6,7 @@
 
     <TextView
         android:id="@+id/metricsTitle"
+        android:textStyle="bold"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -25,6 +26,7 @@
         android:layout_marginTop="120dp"
         android:padding="16dp"
         android:src="@drawable/nn_icon_personhike"
+        android:background="@drawable/background_activity_tabs"
         app:layout_constraintDimensionRatio="W, 1:1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/heartRateIcon"
@@ -38,10 +40,11 @@
         android:layout_marginTop="120dp"
         android:padding="16dp"
         android:src="@drawable/nn_icon_heart"
+        android:background="@drawable/background_activity_tabs"
         app:layout_constraintDimensionRatio="W, 1:1"
         app:layout_constraintEnd_toStartOf="@id/standingIcon"
         app:layout_constraintStart_toEndOf="@id/walkingIcon"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/standingIcon"
@@ -52,6 +55,7 @@
         android:layout_marginEnd="20dp"
         android:padding="16dp"
         android:src="@drawable/nn_icon_standing"
+        android:background="@drawable/background_activity_tabs"
         app:layout_constraintDimensionRatio="W, 1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/heartRateIcon"
