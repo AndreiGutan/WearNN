@@ -23,5 +23,13 @@
     <string name="wearosheartratedata">wearOsHeartRateData</string>
     <string name="wearosstandingdata">wearOsStandingData</string>
     <string name="share">share</string>
+    <string name="insurance_payment">Insurance Payment</string>
+    <string name="insurance_payment_info">Insurance payment Info</string>
+    <string name="monthly_payment">Monthly Payment:</string>
+    <string name="activity_discount">Activity discount:</string>
+    <string name="wearosheart">wearOsHeart</string>
+    <string name="paymentDiscount">"12"</string>
+    <string name="paymentTotal">"1000"</string>
+    <string name="remainingPayment">"1000"</string>
 
 </resources>

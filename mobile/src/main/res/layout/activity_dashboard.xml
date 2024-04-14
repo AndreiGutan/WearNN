@@ -12,10 +12,12 @@
 
 <!--    activity metrics-->
     <!--    metric icons-->
+    <!--    metric Data-->
     <include layout="@layout/metric_icons"/>
 
-<!--    &lt;!&ndash;    metric cata&ndash;&gt;-->
-    <include layout="@layout/wear_os_data"/>
+
+    <!--  Contractual Info-->
+    <include layout="@layout/payment_activity"/>
 
 
 
