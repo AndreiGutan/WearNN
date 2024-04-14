@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:layout_marginEnd="16dp"
     android:layout_marginStart="20dp"
-    android:layout_marginTop="280dp"
+    android:layout_marginTop="300dp"
     android:layout_marginBottom="300dp">
 
     <TextView
@@ -22,9 +22,9 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/paymentDetails"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="4dp"
         android:background="@drawable/background_activity_tabs"
@@ -91,7 +91,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="15sp"
-            android:text="@string/_12345"
+            android:text="@string/paymentTotal"
             android:layout_marginStart="300dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -102,7 +102,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="15sp"
-            android:text="@string/_12"
+            android:text="@string/paymentDiscount"
             android:layout_marginStart="300dp"
             app:layout_constraintTop_toBottomOf="@id/paymentValue"
             app:layout_constraintStart_toStartOf="parent"
@@ -113,7 +113,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:textSize="15sp"
-            android:text="@string/_1000"
+            android:text="@string/remainingPayment"
             android:textStyle="bold"
             android:layout_marginStart="300dp"
             app:layout_constraintTop_toBottomOf="@id/delimiter"

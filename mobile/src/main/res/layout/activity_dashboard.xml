@@ -12,13 +12,12 @@
 
 <!--    activity metrics-->
     <!--    metric icons-->
+    <!--    metric Data-->
     <include layout="@layout/metric_icons"/>
 
-<!--  metric data from watch-->
-    <include layout="@layout/wear_os_bio_data"/>
 
     <!--  Contractual Info-->
-    <include layout="@layout/life_insurance_cnt_discount"/>
+    <include layout="@layout/payment_activity"/>
 
 
 

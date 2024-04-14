@@ -36,6 +36,9 @@
             android:exported="true"
             android:taskAffinity="" />
 
+        <!-- Payment activity calculates a basic discount according to the bioData received from the wearOS device -->
+        <activity android:name=".activities.PaymentActivity" />
+
         <!-- Service declaration should be within the application tag -->
         <service android:name=".services.MessageLayerListenerService"
             android:exported="true">
