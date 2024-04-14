@@ -92,6 +92,8 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.room.common)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.runtime.livedata)
+    implementation(libs.androidx.room.runtime)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)

@@ -31,6 +31,8 @@ wearToolingPreview = "1.0.0"
 ui = "1.6.5"
 roomCommon = "2.6.1"
 roomKtx = "2.6.1"
+runtimeLivedata = "1.6.5"
+roomRuntime = "2.6.1"
 
 
 [libraries]
@@ -72,6 +74,8 @@ androidx-watchface-complications-data-source-ktx = { group = "androidx.wear.watc
 ui = { group = "androidx.compose.ui", name = "ui", version.ref = "ui" }
 androidx-room-common = { group = "androidx.room", name = "room-common", version.ref = "roomCommon" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
+androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedata" }
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomRuntime" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

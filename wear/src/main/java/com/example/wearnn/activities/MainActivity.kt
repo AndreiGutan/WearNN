@@ -1,5 +1,6 @@
 package com.example.wearnn.activities
 
+import HealthViewModelFactory
 import Screen1Week
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,26 +12,29 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.ViewModelProvider
+import com.example.wearnn.data.AppDatabase
 import com.example.wearnn.presentation.theme.WearNNTheme
-import com.example.wearnn.presentation.ui.composables.StatsPerDay.Screen1Day
-import com.example.wearnn.presentation.ui.composables.StatsPerDay.Screen2Day
-import com.example.wearnn.presentation.ui.composables.StatsPerDay.Screen2Week
-import com.example.wearnn.presentation.ui.composables.StatsPerDay.Screen3Day
-import com.example.wearnn.presentation.ui.composables.StatsPerWeek.Screen1Week
-import com.example.wearnn.presentation.ui.composables.StatsPerWeek.Screen2Week
+import com.example.wearnn.presentation.ui.composables.statsPerDay.Screen1Day
+import com.example.wearnn.presentation.ui.composables.statsPerDay.Screen2Day
+import com.example.wearnn.presentation.ui.composables.statsPerDay.Screen2Week
+import com.example.wearnn.presentation.ui.composables.statsPerDay.Screen3Day
 import com.example.wearnn.utils.PermissionUtils
 import com.example.wearnn.viewModel.HealthViewModel
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
-        PermissionUtils.checkAndRequestPermissions(this)
+
+        val database = AppDatabase.getDatabase(this)
+        val healthDataDao = database.healthDataDao()
+        val viewModelFactory = HealthViewModelFactory(healthDataDao)
 
         setContent {
             WearNNTheme {
-                val healthViewModel: HealthViewModel = viewModel()
+                val healthViewModel: HealthViewModel = ViewModelProvider(this, viewModelFactory)[HealthViewModel::class.java]
                 PagerContent(healthViewModel)
             }
         }

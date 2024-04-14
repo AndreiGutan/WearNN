@@ -1,11 +1,18 @@
 package com.example.wearnn.data.model
 
-import androidx.compose.ui.graphics.Color
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.ColumnInfo
+import androidx.room.TypeConverters
+import com.example.wearnn.utils.LocalDateConverter
 import java.time.LocalDate
+import androidx.compose.ui.graphics.Color
 
+@Entity(tableName = "health_data")
 data class HealthData(
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val progress: Int,
     val goal: Int,
-    val color: Color,
-    val date: LocalDate  // Add a date field to store when the data was recorded
+    @ColumnInfo(name = "date") val date: LocalDate,
+    @ColumnInfo(name = "type") val type: String  // Add this line
 )
