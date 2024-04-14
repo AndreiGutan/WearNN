@@ -1,13 +1,7 @@
 package com.example.wearnn.presentation.ui.composables.StatsPerDay
 
-import HealthData
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,23 +16,27 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.Text
-import com.example.wearnn.R
+import com.example.wearnn.data.model.HealthData
 import com.example.wearnn.utils.AppFonts
-
-
+import com.example.wearnn.viewModel.HealthViewModel
+import kotlinx.coroutines.flow.collectAsState
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.getValue
 
 @Composable
-fun Screen1Day(healthData: List<HealthData>) {
+fun Screen1Day(viewModel: HealthViewModel) {
+    // Assuming we can fetch today's data from the ViewModel
+    val todayData by viewModel.todayData.observeAsState(initial = emptyList())  // `todayData` should be prepared in ViewModel
+
     val strokeWidth = 50f // define the stroke width
     val spaceBetweenArcs = 7f // define space between arcs
 
     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
         Canvas(modifier = Modifier.size(300.dp)) {  // Adjust size as needed
             var outerRadius = (size.minDimension - strokeWidth * 1.2f) / 2
-            healthData.forEachIndexed { index, data ->
+            todayData.forEach { data ->
                 val startAngle = -225f
                 val sweepAngle = 270f * data.progress / data.goal  // Calculate the percentage of the goal achieved
-                val emptySweepAngle = 270f - sweepAngle
 
                 // Draw the "empty" background arc
                 drawArc(
@@ -72,8 +70,8 @@ fun Screen1Day(healthData: List<HealthData>) {
             verticalArrangement = Arrangement.spacedBy(-3.dp), // This adds space between texts
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Reverse the order of healthData if needed by using `reversed()`
-            healthData.reversed().forEach { data ->
+            // Reverse the order of todayData if needed by using `reversed()`
+            todayData.reversed().forEach { data ->
                 Text(
                     text = "${data.progress}",
                     color = data.color,
@@ -82,10 +80,5 @@ fun Screen1Day(healthData: List<HealthData>) {
                 )
             }
         }
-
     }
 }
-
-
-
-
