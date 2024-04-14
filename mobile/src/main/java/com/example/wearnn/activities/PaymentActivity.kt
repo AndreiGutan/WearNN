@@ -13,8 +13,9 @@ class PaymentActivity : AppCompatActivity(){
         const val euroSign : Char = '\u20AC'
         const val percentage = "%"
     }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState);
+    override fun onStart() {
+        super.onStart()
+
         setContentView(R.layout.payment_activity);
 // Selecting the correct elements
         val paymentAmountElement : TextView = findViewById(R.id.paymentValue) as TextView
