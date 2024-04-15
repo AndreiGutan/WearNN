@@ -1,5 +1,5 @@
 [versions]
-agp = "8.3.1"
+agp = "8.3.2"
 androidxWearable = "2.8.0"
 composeNavigation = "1.3.1"
 kotlin = "1.9.23"
@@ -31,6 +31,11 @@ wearToolingPreview = "1.0.0"
 ui = "1.6.5"
 roomCommon = "2.6.1"
 roomKtx = "2.6.1"
+runtimeLivedata = "1.6.5"
+roomRuntime = "2.6.1"
+roomCompiler = "2.6.1"
+watchfaceComplicationsData = "1.2.1"
+
 
 
 [libraries]
@@ -72,6 +77,11 @@ androidx-watchface-complications-data-source-ktx = { group = "androidx.wear.watc
 ui = { group = "androidx.compose.ui", name = "ui", version.ref = "ui" }
 androidx-room-common = { group = "androidx.room", name = "room-common", version.ref = "roomCommon" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
+androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedata" }
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomRuntime" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomCompiler" }
+androidx-watchface-complications-data = { group = "androidx.wear.watchface", name = "watchface-complications-data", version.ref = "watchfaceComplicationsData" }
+
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
