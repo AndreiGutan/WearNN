@@ -20,13 +20,27 @@ import com.example.wearnn.utils.AppColors
 import com.example.wearnn.utils.StatsNames
 import com.example.wearnn.viewModel.HealthViewModel
 
+
 @Composable
 fun Screen1Week(healthViewModel: HealthViewModel) {
     val weeklyData by healthViewModel.weeklyData.collectAsState()
 
-    val averageMove = weeklyData.flatten().filter { it.type == StatsNames.move }.map { it.progress.toDouble() }.average()
-    val averageExercise = weeklyData.flatten().filter { it.type == StatsNames.exercise }.map { it.progress.toDouble() }.average()
-    val averageStand = weeklyData.flatten().filter { it.type == StatsNames.stand }.map { it.progress.toDouble() }.average()
+    // Convert HealthData to HealthDataPreferences
+    val weeklyDataPreferences = weeklyData.map { healthDataList ->
+        val healthDataPreferencesList = healthDataList.map { healthData ->
+            HealthDataPreferences(
+                progress = healthData.progress,
+                goal = healthData.goal,
+                date = healthData.date,
+                type = healthData.type
+            )
+        }
+        healthDataPreferencesList
+    }
+
+    val averageMove = weeklyDataPreferences.flatten().filter { it.type == StatsNames.move }.map { it.progress.toDouble() }.average()
+    val averageExercise = weeklyDataPreferences.flatten().filter { it.type == StatsNames.exercise }.map { it.progress.toDouble() }.average()
+    val averageStand = weeklyDataPreferences.flatten().filter { it.type == StatsNames.stand }.map { it.progress.toDouble() }.average()
 
     Column(
         modifier = Modifier
@@ -42,8 +56,8 @@ fun Screen1Week(healthViewModel: HealthViewModel) {
                 .padding(vertical = 8.dp),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            weeklyData.zip(listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")).forEach { (data, day) ->
-                MiniDayStats(healthData = data, day = day)
+            weeklyDataPreferences.zip(listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")).forEach { (data, day) ->
+                MiniDayStats(healthDataPreferences = data, day = day)
             }
         }
         // Display averages
@@ -55,7 +69,7 @@ fun Screen1Week(healthViewModel: HealthViewModel) {
 }
 
 @Composable
-fun MiniDayStats(healthData: List<HealthData>, day: String, modifier: Modifier = Modifier) {
+fun MiniDayStats(healthDataPreferences: List<HealthDataPreferences>, day: String, modifier: Modifier = Modifier) {
     val colorMap = mapOf(
         StatsNames.move to AppColors.caloriesRed,
         StatsNames.exercise to AppColors.activityYellow,
@@ -67,7 +81,7 @@ fun MiniDayStats(healthData: List<HealthData>, day: String, modifier: Modifier =
         Box(contentAlignment = Alignment.Center, modifier = Modifier.size(25.dp)) {
             Canvas(modifier = Modifier.fillMaxSize()) {
                 var outerRadius = (size.minDimension - 6f * 2f) / 2
-                healthData.forEach { data ->
+                healthDataPreferences.forEach { data ->
                     val startAngle = -225f
                     val sweepAngle = 270f * data.progress / data.goal
                     val color = colorMap[data.type] ?: Color.Gray  // Default to gray if type is not defined

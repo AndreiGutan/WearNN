@@ -65,6 +65,8 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+
     buildToolsVersion = "34.0.0"
     ndkVersion = "25.1.8937393"
 }
@@ -94,6 +96,8 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.androidx.room.runtime)
+    annotationProcessor (libs.androidx.room.compiler)
+    implementation(libs.kotlinx.coroutines)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)

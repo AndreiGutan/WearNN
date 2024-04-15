@@ -1,6 +1,8 @@
 package com.example.wearnn.presentation.ui.composables.statsPerDay
 
 import ActivityStat
+
+import HealthViewModelPreferences
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth

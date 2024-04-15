@@ -1,6 +1,8 @@
 package com.example.wearnn.presentation.ui.composables.statsPerDay
 
 import ActivityStat
+
+import HealthViewModelPreferences
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
@@ -18,6 +20,7 @@ import androidx.wear.compose.material.Text
 import com.example.wearnn.utils.AppColors
 import com.example.wearnn.utils.AppFonts
 import com.example.wearnn.viewModel.HealthViewModel
+
 
 @Composable
 fun ActivityRow2Day(activityStat: ActivityStat) {

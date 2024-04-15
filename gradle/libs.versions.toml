@@ -1,5 +1,5 @@
 [versions]
-agp = "8.3.1"
+agp = "8.3.2"
 androidxWearable = "2.8.0"
 composeNavigation = "1.3.1"
 kotlin = "1.9.23"
@@ -33,6 +33,8 @@ roomCommon = "2.6.1"
 roomKtx = "2.6.1"
 runtimeLivedata = "1.6.5"
 roomRuntime = "2.6.1"
+roomCompiler = "2.6.1"
+kotlinxCoroutines = "0.19.2"
 
 
 [libraries]
@@ -76,6 +78,8 @@ androidx-room-common = { group = "androidx.room", name = "room-common", version.
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
 androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedata" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomRuntime" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomCompiler" }
+kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines", version.ref = "kotlinxCoroutines" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

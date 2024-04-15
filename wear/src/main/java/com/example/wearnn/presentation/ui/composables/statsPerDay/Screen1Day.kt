@@ -1,5 +1,7 @@
 package com.example.wearnn.presentation.ui.composables.statsPerDay
 
+
+import HealthViewModelPreferences
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
