@@ -33,6 +33,8 @@ roomCommon = "2.6.1"
 roomKtx = "2.6.1"
 runtimeLivedata = "1.6.5"
 roomRuntime = "2.6.1"
+roomCompiler = "2.6.1"
+watchfaceComplicationsData = "1.2.1"
 
 
 
@@ -77,6 +79,8 @@ androidx-room-common = { group = "androidx.room", name = "room-common", version.
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
 androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedata" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomRuntime" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomCompiler" }
+androidx-watchface-complications-data = { group = "androidx.wear.watchface", name = "watchface-complications-data", version.ref = "watchfaceComplicationsData" }
 
 
 [plugins]
