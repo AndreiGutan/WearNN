@@ -20,6 +20,7 @@ import com.example.wearnn.presentation.ui.composables.statsPerDay.Screen2Day
 import com.example.wearnn.presentation.ui.composables.statsPerDay.Screen2Week
 import com.example.wearnn.presentation.ui.composables.statsPerDay.Screen3Day
 import com.example.wearnn.viewModel.HealthViewModel
+import com.example.wearnn.data.database.AppDatabase
 
 
 class MainActivity : ComponentActivity() {

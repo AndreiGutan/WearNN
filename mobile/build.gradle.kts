@@ -8,13 +8,13 @@ android {
 
         signingConfigs {
         getByName("debug") {
-            storeFile = file("D:\\AndroidStudioProjects\\Keysotres\\WearNNKey.jks")
+            storeFile = file("C:\\Users\\Dell 5570\\StudioProjects\\WearNN\\WearNNKey.jks")
             storePassword = "WearNNKey!"
             keyPassword = "WearNNKey!"
             keyAlias = "WearNNKey"
         }
         create("NNKey") {
-            storeFile = file("D:\\AndroidStudioProjects\\Keysotres\\WearNNKey.jks")
+            storeFile = file("C:\\Users\\Dell 5570\\StudioProjects\\WearNN\\WearNNKey.jks")
             storePassword = "WearNNKey!"
             keyPassword = "WearNNKey!"
             keyAlias = "WearNNKey"
@@ -54,12 +54,12 @@ android {
         kotlinCompilerExtensionVersion = "1.5.11"
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "19"
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_19
+        targetCompatibility = JavaVersion.VERSION_19
     }
 
     buildToolsVersion = "34.0.0"

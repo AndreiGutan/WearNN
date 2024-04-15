@@ -1,3 +1,5 @@
+package com.example.wearnn.data.database;
+
 import androidx.room.TypeConverter
 import java.time.LocalDate
 

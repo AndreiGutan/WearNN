@@ -1,3 +1,4 @@
+package com.example.wearnn.data.database;
 
 import android.content.Context
 import android.util.Log
