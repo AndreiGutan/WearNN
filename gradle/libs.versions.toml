@@ -34,6 +34,9 @@ roomKtx = "2.6.1"
 runtimeLivedata = "1.6.5"
 roomRuntime = "2.6.1"
 roomCompiler = "2.6.1"
+roomCompilerVersion = "2.4.1"
+roomRuntimeVersion = "2.4.1"
+roomCommonVersion = "2.4.1"
 
 
 [libraries]
@@ -78,6 +81,9 @@ androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = 
 androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedata" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomRuntime" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomCompiler" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomCompilerVersion" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomRuntimeVersion" }
+room-common = { group = "androidx.room", name = "room-common", version.ref = "roomCommonVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

@@ -3,10 +3,7 @@ package com.example.wearnn.data.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.ColumnInfo
-import androidx.room.TypeConverters
-import com.example.wearnn.utils.LocalDateConverter
 import java.time.LocalDate
-import androidx.compose.ui.graphics.Color
 
 @Entity(tableName = "health_data")
 data class HealthData(

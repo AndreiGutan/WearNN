@@ -3,6 +3,7 @@ package com.example.wearnn.activities
 import HealthViewModelFactory
 import Screen1Week
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
-import com.example.wearnn.data.database.AppDatabase
 import com.example.wearnn.presentation.theme.WearNNTheme
 import com.example.wearnn.presentation.ui.composables.statsPerDay.Screen1Day
 import com.example.wearnn.presentation.ui.composables.statsPerDay.Screen2Day
@@ -27,9 +27,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         installSplashScreen()
 
+        Log.d("MainActivity", "Initializing database")
         val database = AppDatabase.getDatabase(this)
+        Log.d("MainActivity", "Database initialized: $database")
         val healthDataDao = database.healthDataDao()
+        Log.d("MainActivity", "DAO initialized: $healthDataDao")
         val viewModelFactory = HealthViewModelFactory(healthDataDao)
+        Log.d("MainActivity", "ViewModelFactory created")
+
 
         setContent {
             WearNNTheme {
