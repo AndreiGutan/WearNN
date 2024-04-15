@@ -1,6 +1,7 @@
 package com.example.wearnn.viewModel
 
 import ActivityStat
+import android.util.Log
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,9 +17,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
-class HealthViewModel(
-    private val healthDataDao: HealthDataDao
-) : ViewModel() {
+class HealthViewModel(private val healthDataDao: HealthDataDao) : ViewModel() {
+
     private val _dailyData = MutableStateFlow<List<HealthData>>(emptyList())
     val dailyData: StateFlow<List<HealthData>> = _dailyData
     private val _weeklyAverageStats = MutableStateFlow<List<ActivityStat>>(emptyList())
@@ -34,6 +34,29 @@ class HealthViewModel(
         calculateWeeklyAverages()
         convertHealthDataToActivityStats()
     }
+    private val _isLoading = MutableStateFlow(true)
+    val isLoading: StateFlow<Boolean> = _isLoading
+
+    private fun loadTodayData() {
+        viewModelScope.launch {
+            try {
+                Log.d("HealthViewModel", "About to load today's data")
+                healthDataDao.loadHealthDataForDay(LocalDate.now()).collect { data ->
+                    Log.d("HealthViewModel", "Data loaded, updating state flow")
+                    _dailyData.value = data
+                    Log.d("HealthViewModel", "State flow updated")
+                    convertHealthDataToActivityStats()
+                    _isLoading.value = false
+                }
+            } catch (e: Exception) {
+                Log.e("HealthViewModel", "Failed to load data: ${e.message}")
+                _isLoading.value = false
+            }
+        }
+    }
+
+
+
     private fun calculateWeeklyAverages() {
         viewModelScope.launch {
             val weekData = healthDataDao.loadHealthDataForWeek(LocalDate.now().minusDays(6), LocalDate.now()).collect { data ->
@@ -49,14 +72,6 @@ class HealthViewModel(
             }
         }
     }
-    private fun loadTodayData() {
-        viewModelScope.launch {
-            healthDataDao.loadHealthDataForDay(LocalDate.now()).collect {
-                _dailyData.value = it
-                convertHealthDataToActivityStats()
-            }
-        }
-    }
     private fun loadWeeklyData() {
         viewModelScope.launch {
             val startDate = LocalDate.now().minusDays(6)
@@ -69,12 +84,16 @@ class HealthViewModel(
     }
     private fun convertHealthDataToActivityStats() {
         viewModelScope.launch {
-            val stats = _dailyData.value.map { healthData ->
+            val validStats = _dailyData.value.filter { data ->
+                data.type in listOf(StatsNames.move, StatsNames.exercise, StatsNames.stand, StatsNames.steps, StatsNames.distance, StatsNames.climbed)
+            }
+            val stats = validStats.map { healthData ->
                 mapToActivityStat(healthData)
             }
             _configuredDailyData.value = stats
         }
     }
+
 
     // Example function to calculate average progress of a particular statistic
     fun calculateAverageProgress() {
@@ -126,7 +145,17 @@ class HealthViewModel(
                 unit = Units.meters,
                 progress = healthData.progress
             )
-            else -> throw IllegalArgumentException("Unknown health data type")
+            else -> {
+                Log.w("HealthViewModel", "Encountered unknown health data type: ${healthData.type}")
+                ActivityStat(
+                    title = "Unknown",
+                    unit = "",
+                    progress = 0,
+                    goal = 0,
+                    angle = 0f,
+                    color = Color.Gray
+                )
+            }
         }
     }
 

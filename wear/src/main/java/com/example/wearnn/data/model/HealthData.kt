@@ -8,8 +8,8 @@ import java.time.LocalDate
 @Entity(tableName = "health_data")
 data class HealthData(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    val progress: Int,
-    val goal: Int,
-    @ColumnInfo(name = "date") val date: LocalDate,
-    @ColumnInfo(name = "type") val type: String  // Add this line
+    val progress: Int,  // Assuming this is a sum of daily activity or similar
+    val goal: Int,  // Daily goal
+    val date: LocalDate,
+    val type: String  // Type of the data, e.g., "steps", "heartRate"
 )
