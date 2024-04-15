@@ -13,13 +13,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
-import com.example.wearnn.data.AppDatabase
+import com.example.wearnn.data.database.AppDatabase
 import com.example.wearnn.presentation.theme.WearNNTheme
 import com.example.wearnn.presentation.ui.composables.statsPerDay.Screen1Day
 import com.example.wearnn.presentation.ui.composables.statsPerDay.Screen2Day
 import com.example.wearnn.presentation.ui.composables.statsPerDay.Screen2Week
 import com.example.wearnn.presentation.ui.composables.statsPerDay.Screen3Day
-import com.example.wearnn.utils.PermissionUtils
 import com.example.wearnn.viewModel.HealthViewModel
 
 

@@ -1,10 +1,10 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    kotlin("kapt") // Adding the KAPT plugin using Kotlin DSL
 }
 
 android {
-
     signingConfigs {
         getByName("debug") {
             storeFile = file("D:\\AndroidStudioProjects\\Keysotres\\WearNNKey.jks")
@@ -28,42 +28,33 @@ android {
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
-
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
-        release {
+        getByName("release") {
             isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             signingConfig = signingConfigs.getByName("NNKey")
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_19
-        targetCompatibility = JavaVersion.VERSION_19
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     buildFeatures {
         compose = true
     }
     composeOptions {
-        // Update the Kotlin Compiler Extension Version to match the Kotlin version needed
         kotlinCompilerExtensionVersion = "1.5.11"
     }
     kotlinOptions {
-        jvmTarget = "19"
+        jvmTarget = "17"
     }
 
-    packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
+    packagingOptions {
+        excludes += "/META-INF/{AL2.0,LGPL2.1}"
     }
     buildToolsVersion = "34.0.0"
     ndkVersion = "25.1.8937393"
@@ -94,9 +85,10 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
+
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
 }
