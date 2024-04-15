@@ -1,4 +1,3 @@
-import com.example.wearnn.data.database.Converters
 
 import android.content.Context
 import android.util.Log
@@ -9,7 +8,7 @@ import androidx.room.Room
 import com.example.wearnn.data.dao.HealthDataDao
 import com.example.wearnn.data.model.HealthData
 
-@Database(entities = [HealthData::class], version = 1)
+@Database(entities = [HealthData::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun healthDataDao(): HealthDataDao
@@ -18,21 +17,27 @@ abstract class AppDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: AppDatabase? = null
 
+        // Correct the function signature to return AppDatabase
         fun getDatabase(context: Context): AppDatabase {
-            return INSTANCE ?: synchronized(this) {
-                Log.d("DatabaseInit", "Context: ${context.applicationContext}")
-
+            Log.d("DatabaseInit", "Getting database instance...")
+            val tempInstance = INSTANCE
+            if (tempInstance != null) {
+                Log.d("DatabaseInit", "Returning existing instance")
+                return tempInstance
+            }
+            synchronized(this) {
+                Log.d("DatabaseInit", "Creating new database instance")
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
                     "your_database_name"
-                )
-                    .fallbackToDestructiveMigration()
+                ).fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
-                instance
+                Log.d("DatabaseInit", "Database instance created successfully")
+                return instance
             }
         }
-    }
 
+    }
 }

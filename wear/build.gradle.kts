@@ -33,7 +33,7 @@ android {
 
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             signingConfig = signingConfigs.getByName("NNKey")
         }
@@ -65,6 +65,7 @@ dependencies {
     implementation("androidx.wear:wear-tooling-preview:1.0.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.8.0")
+
     implementation(libs.androidx.compose.navigation)
     implementation(libs.play.services.wearable)
     implementation(platform(libs.androidx.compose.bom))
@@ -81,10 +82,10 @@ dependencies {
     implementation(libs.androidx.watchface.complications.data.source.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.runtime.livedata)
-    implementation(libs.room.runtime)
-    implementation(libs.room.common)
+    implementation(libs.androidx.room.common)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.runtime)
 
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
