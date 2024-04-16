@@ -3,6 +3,7 @@ package com.example.wearnn.presentation.ui.composables.statsPerDay
 import ActivityStat
 import android.util.Log
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -12,6 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.res.painterResource
+import com.example.wearnn.R
+
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -23,33 +27,53 @@ import com.example.wearnn.viewModel.HealthViewModel
 
 @Composable
 fun ActivityRow2Day(activityStat: ActivityStat) {
+    val iconId = when (activityStat.title) {
+        StatsNames.move -> R.drawable.ic_move
+        StatsNames.exercise -> R.drawable.ic_exercise
+        StatsNames.stand -> R.drawable.ic_stand
+        else -> null
+    }
+
     Row(
         modifier = Modifier
-            .offset(x = 55.dp)
+            .offset(x = 10.dp)
             .fillMaxWidth()
-            .padding(horizontal = 10.dp, vertical = 6.dp),
+            .padding(horizontal = 55.dp, vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Canvas(modifier = Modifier.size(35.dp)) {
-            activityStat.color?.let {
-                drawArc(
-                    color = it.copy(alpha = 0.3f),
-                    startAngle = -225f,
-                    sweepAngle = 270f,
-                    useCenter = false,
-                    style = Stroke(width = 5.dp.toPx(), cap = StrokeCap.Round)
-                )
-            }
-            activityStat.color?.let {
-                activityStat.angle?.let { it1 ->
+        Box(
+            modifier = Modifier.size(38.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            // Draw the arc
+            Canvas(modifier = Modifier.matchParentSize()) {
+                activityStat.color?.let {
                     drawArc(
-                        color = it,
+                        color = it.copy(alpha = 0.3f),
                         startAngle = -225f,
-                        sweepAngle = it1,
+                        sweepAngle = 270f,
                         useCenter = false,
                         style = Stroke(width = 5.dp.toPx(), cap = StrokeCap.Round)
                     )
+                    activityStat.angle?.let { angle ->
+                        drawArc(
+                            color = it,
+                            startAngle = -225f,
+                            sweepAngle = angle,
+                            useCenter = false,
+                            style = Stroke(width = 5.dp.toPx(), cap = StrokeCap.Round)
+                        )
+                    }
                 }
+            }
+
+            // Overlay the icon
+            iconId?.let {
+                Image(
+                    painter = painterResource(id = it),
+                    contentDescription = "${activityStat.title} icon",
+                    modifier = Modifier.size(30.dp)  // Smaller size to fit within the arc
+                )
             }
         }
 
@@ -90,6 +114,7 @@ fun ActivityRow2Day(activityStat: ActivityStat) {
         }
     }
 }
+
 
 @Composable
 fun Screen2Day(viewModel: HealthViewModel) {

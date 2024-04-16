@@ -1,8 +1,10 @@
 package com.example.wearnn.presentation.ui.composables.statsPerDay
 
 import ActivityStat
-import android.util.Log
+import com.example.wearnn.R
+
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -13,6 +15,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,17 +36,17 @@ fun Screen1Day(viewModel: HealthViewModel) {
         dailyStats.find { it.title == StatsNames.move },
         dailyStats.find { it.title == StatsNames.exercise },
         dailyStats.find { it.title == StatsNames.stand }
-    )  // Ensure no null values are included
-
-    Log.d("Screen1Day", "Loading: $isLoading, Filtered stats count: ${dailyStats.size}")
+    )
 
     if (isLoading) {
         Text("Loading...", style = TextStyle(fontSize = 18.sp))
+    } else if (dailyStats.isEmpty()) {
+        Text("No data available", style = TextStyle(fontSize = 18.sp))
     } else {
-        if (dailyStats.isEmpty()) {
-            Text("No data available", style = TextStyle(fontSize = 18.sp))
-        } else {
+        Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
             DrawStats(orderedStats)
+            LogoImage()  // Logo centered by the Box
+            DisplayTextBelowArcs(orderedStats, Modifier.align(Alignment.BottomCenter))
         }
     }
 }
@@ -86,6 +90,16 @@ private fun DrawStats(dailyStats: List<ActivityStat>) {
         }
         DisplayTextBelowArcs(dailyStats, Modifier.align(Alignment.BottomCenter))
     }
+}
+@Composable
+fun LogoImage() {
+    val logo: Painter = painterResource(id = R.drawable.logo_nn_splash)
+    Image(
+        painter = logo,
+        contentDescription = "Logo",
+        modifier = Modifier
+            .size(60.dp)  // Specify the size as needed
+    )
 }
 
 

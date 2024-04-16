@@ -1,9 +1,10 @@
 package com.example.wearnn.presentation.ui.composables.statsPerDay
 
 import ActivityStat
-import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -13,13 +14,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.wear.compose.material.Colors
 import androidx.wear.compose.material.Text
+import com.example.wearnn.R
 import com.example.wearnn.utils.AppColors
 import com.example.wearnn.utils.AppFonts
 import com.example.wearnn.utils.StatsNames
@@ -28,7 +28,13 @@ import com.example.wearnn.viewModel.HealthViewModel
 
 @Composable
 fun ActivityRow3Day(activityStat: ActivityStat) {
-    // Check if the activity is distance and convert meters to kilometers
+    val iconId = when (activityStat.title) {
+        StatsNames.steps -> R.drawable.ic_steps
+        StatsNames.distance -> R.drawable.ic_distance
+        StatsNames.climbed -> R.drawable.ic_climb
+        else -> null
+    }
+
     val displayText = if (activityStat.unit == Units.kilometers) {
         val kilometers = activityStat.progress / 1000.0  // Convert meters to kilometers
         "${String.format("%.2f", kilometers)} km"  // Format to two decimal places
@@ -38,30 +44,17 @@ fun ActivityRow3Day(activityStat: ActivityStat) {
 
     Row(
         modifier = Modifier
-            .offset(x = 55.dp)
+            .offset(x = 4.dp)
             .fillMaxWidth()
-            .padding(horizontal = 10.dp, vertical = 6.dp),
+            .padding(horizontal = 50.dp, vertical = 5.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Canvas(modifier = Modifier.size(35.dp)) {
-            activityStat.color?.let {
-                drawArc(
-                    color = it.copy(alpha = 0.3f),
-                    startAngle = -225f,
-                    sweepAngle = 270f,
-                    useCenter = false,
-                    style = Stroke(width = 5.dp.toPx(), cap = StrokeCap.Round)
-                )
-                activityStat.angle?.let { angle ->
-                    drawArc(
-                        color = it,
-                        startAngle = -225f,
-                        sweepAngle = angle,
-                        useCenter = false,
-                        style = Stroke(width = 5.dp.toPx(), cap = StrokeCap.Round)
-                    )
-                }
-            }
+        iconId?.let {
+            Image(
+                painter = painterResource(id = it),
+                contentDescription = "${activityStat.title} icon",
+                modifier = Modifier.size(45.dp)
+            )
         }
         Column(
             horizontalAlignment = Alignment.Start,
@@ -82,7 +75,6 @@ fun ActivityRow3Day(activityStat: ActivityStat) {
     }
 }
 
-
 @Composable
 fun Screen3Day(viewModel: HealthViewModel) {
     val activities by viewModel.configuredDailyData.collectAsState()
@@ -93,7 +85,9 @@ fun Screen3Day(viewModel: HealthViewModel) {
     }
 
     Column(
-        modifier = Modifier.padding(top = 20.dp),
+        modifier = Modifier
+            .offset(y = 20.dp)
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
@@ -106,4 +100,3 @@ fun Screen3Day(viewModel: HealthViewModel) {
         }
     }
 }
-
