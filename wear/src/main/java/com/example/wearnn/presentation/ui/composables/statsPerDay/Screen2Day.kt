@@ -1,6 +1,7 @@
 package com.example.wearnn.presentation.ui.composables.statsPerDay
 
 import ActivityStat
+import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
@@ -17,13 +18,14 @@ import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.Text
 import com.example.wearnn.utils.AppColors
 import com.example.wearnn.utils.AppFonts
+import com.example.wearnn.utils.StatsNames
 import com.example.wearnn.viewModel.HealthViewModel
 
 @Composable
 fun ActivityRow2Day(activityStat: ActivityStat) {
     Row(
         modifier = Modifier
-            .offset(x = 45.dp)
+            .offset(x = 55.dp)
             .fillMaxWidth()
             .padding(horizontal = 10.dp, vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -93,6 +95,16 @@ fun ActivityRow2Day(activityStat: ActivityStat) {
 fun Screen2Day(viewModel: HealthViewModel) {
     val activities by viewModel.configuredDailyData.collectAsState()
 
+    // Define the order explicitly
+    val desiredOrder = listOf(StatsNames.move, StatsNames.exercise, StatsNames.stand)
+
+    // Filter and sort activities based on the desired order
+    val filteredActivities = activities.filter {
+        it.title in desiredOrder
+    }.sortedBy {
+        desiredOrder.indexOf(it.title) // This sorts the activities based on the order defined in desiredOrder
+    }
+
     Column(
         modifier = Modifier
             .offset(y = 20.dp)
@@ -104,7 +116,7 @@ fun Screen2Day(viewModel: HealthViewModel) {
             fontFamily = AppFonts.bebasNeueFont,
             style = TextStyle(fontSize = 29.sp)
         )
-        activities.forEach { activityStat ->
+        filteredActivities.forEach { activityStat ->
             ActivityRow2Day(activityStat)
         }
     }

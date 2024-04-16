@@ -1,6 +1,7 @@
 package com.example.wearnn.viewModel
 
 import ActivityStat
+import android.util.Log
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,9 +17,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
-class HealthViewModel(
-    private val healthDataDao: HealthDataDao
-) : ViewModel() {
+class HealthViewModel(private val healthDataDao: HealthDataDao) : ViewModel() {
+
     private val _dailyData = MutableStateFlow<List<HealthData>>(emptyList())
     val dailyData: StateFlow<List<HealthData>> = _dailyData
     private val _weeklyAverageStats = MutableStateFlow<List<ActivityStat>>(emptyList())
@@ -34,6 +34,30 @@ class HealthViewModel(
         calculateWeeklyAverages()
         convertHealthDataToActivityStats()
     }
+    private val _isLoading = MutableStateFlow(true)
+    val isLoading: StateFlow<Boolean> = _isLoading
+
+    private fun loadTodayData() {
+        viewModelScope.launch {
+            try {
+                Log.d("HealthViewModel", "Today Data About to load today's data")
+                healthDataDao.loadHealthDataForDay(LocalDate.now()).collect { data ->
+                    Log.d("HealthViewModel", "Today Data Data loaded: $data")
+                    _dailyData.value = data
+                    Log.d("loadTodayData", "loadTodayData: ${_dailyData.value.joinToString { "HealthData(id=${it.id}, progress=${it.progress}, goal=${it.goal}, date=${it.date}, type=${it.type})" }}")
+
+                    convertHealthDataToActivityStats()
+                    _isLoading.value = false
+                }
+            } catch (e: Exception) {
+                Log.e("HealthViewModel", "Today Data Failed to load data: ${e.message}")
+                _isLoading.value = false
+            }
+        }
+    }
+
+
+
     private fun calculateWeeklyAverages() {
         viewModelScope.launch {
             val weekData = healthDataDao.loadHealthDataForWeek(LocalDate.now().minusDays(6), LocalDate.now()).collect { data ->
@@ -49,14 +73,6 @@ class HealthViewModel(
             }
         }
     }
-    private fun loadTodayData() {
-        viewModelScope.launch {
-            healthDataDao.loadHealthDataForDay(LocalDate.now()).collect {
-                _dailyData.value = it
-                convertHealthDataToActivityStats()
-            }
-        }
-    }
     private fun loadWeeklyData() {
         viewModelScope.launch {
             val startDate = LocalDate.now().minusDays(6)
@@ -69,12 +85,21 @@ class HealthViewModel(
     }
     private fun convertHealthDataToActivityStats() {
         viewModelScope.launch {
-            val stats = _dailyData.value.map { healthData ->
+            Log.d("HealthViewModel", "convertHealthDataToActivityStats Converting health data to activity stats")
+            val validStats = _dailyData.value.filter { data ->
+                Log.d("HealthViewModel", "valid stats get: $data")
+                data.type in listOf(StatsNames.move, StatsNames.exercise, StatsNames.stand, StatsNames.steps, StatsNames.distance, StatsNames.climbed, StatsNames.heartRate)  // Added "heartRate"
+            }
+            Log.d("HealthViewModel", "!!!!!!: $validStats")
+            val stats = validStats.map { healthData ->
+                Log.d("HealthViewModel", "?? s ?$healthData")
                 mapToActivityStat(healthData)
             }
             _configuredDailyData.value = stats
+            Log.d("HealthViewModel", "convertHealthDataToActivityStats Activity stats configured: ${_configuredDailyData.value}")
         }
     }
+
 
     // Example function to calculate average progress of a particular statistic
     fun calculateAverageProgress() {
@@ -86,47 +111,43 @@ class HealthViewModel(
         }
     }
     private fun mapToActivityStat(healthData: HealthData): ActivityStat {
+        Log.d("HealthViewModel", "FFFFFFFFFFFFFFFFFFFF stat: ${healthData.type}")
         return when (healthData.type) {
-            StatsNames.move -> ActivityStat(
-                title = StatsNames.move,
-                unit = Units.calories,
-                progress = healthData.progress,
-                goal = Goals.caloriesGoal,
-                angle = calculateAngle(healthData.progress, Goals.caloriesGoal),
-                color = AppColors.caloriesRed
-            )
-            StatsNames.exercise -> ActivityStat(
-                title = StatsNames.exercise,
-                unit = Units.minutes,
-                progress = healthData.progress,
-                goal = Goals.exerciseGoal,
-                angle = calculateAngle(healthData.progress, Goals.exerciseGoal),
-                color = AppColors.activityYellow
-            )
-            StatsNames.stand -> ActivityStat(
-                title = StatsNames.stand,
-                unit = Units.hours,
-                progress = healthData.progress,
-                goal = Goals.standGoal,
-                angle = calculateAngle(healthData.progress, Goals.standGoal),
-                color = AppColors.standBlue
-            )
-            StatsNames.steps -> ActivityStat(
-                title = StatsNames.steps,
-                unit = Units.steps,
-                progress = healthData.progress
-            )
-            StatsNames.distance -> ActivityStat(
-                title = StatsNames.distance,
-                unit = Units.kilometers,
-                progress = healthData.progress
-            )
-            StatsNames.climbed -> ActivityStat(
-                title = StatsNames.climbed,
-                unit = Units.meters,
-                progress = healthData.progress
-            )
-            else -> throw IllegalArgumentException("Unknown health data type")
+            StatsNames.move, StatsNames.exercise, StatsNames.stand, StatsNames.steps, StatsNames.distance, StatsNames.climbed -> {
+                Log.d("HealthViewModel", "!!1")
+                ActivityStat(
+                    title = healthData.type,
+                    unit = when (healthData.type) {
+                        StatsNames.exercise -> Units.minutes
+                        StatsNames.move -> Units.calories
+                        StatsNames.steps -> Units.steps
+                        StatsNames.distance -> Units.kilometers
+                        StatsNames.climbed -> Units.meters
+                        StatsNames.stand -> Units.hours
+                        else -> Units.minutes // Default to minutes for exercise, stand
+                    },
+                    progress = healthData.progress,
+                    goal = healthData.goal,
+                    angle = calculateAngle(healthData.progress, healthData.goal),
+                    color = when (healthData.type) {
+                        StatsNames.move -> AppColors.caloriesRed
+                        StatsNames.exercise -> AppColors.activityYellow
+                        StatsNames.stand -> AppColors.standBlue
+                        else -> Color.Gray // Default color
+                    }
+                )
+            }
+            else -> {
+                Log.w("HealthViewModel", "Encountered unknown health data type: ${healthData.type}")
+                ActivityStat(
+                    title = "Unknown",
+                    unit = "",
+                    progress = 0,
+                    goal = 0,
+                    angle = 0f,
+                    color = Color.Gray
+                )
+            }
         }
     }
 
@@ -134,11 +155,16 @@ class HealthViewModel(
         return (270f * progress / goal).coerceIn(0f, 270f)
     }
 
+    fun countCompletedDays(weeklyData: List<List<HealthData>>): Int {
+        return weeklyData.count { dailyData ->
+            isDayCompleted(dailyData)
+        }
+    }
 
     fun isDayCompleted(healthDataList: List<HealthData>): Boolean {
         if (healthDataList.isEmpty()) return false
-        val individualCompletion = healthDataList.all { it.progress.toDouble() / it.goal >= 0.8 }
-        val averageCompletion = healthDataList.sumOf { it.progress.toDouble() / it.goal } / healthDataList.size > 0.9
+        val individualCompletion = healthDataList.all { it.progress.toDouble() / it.goal >= 0.7 }
+        val averageCompletion = healthDataList.sumOf { it.progress.toDouble() / it.goal } / healthDataList.size > 0.8
         return individualCompletion && averageCompletion
     }
 }

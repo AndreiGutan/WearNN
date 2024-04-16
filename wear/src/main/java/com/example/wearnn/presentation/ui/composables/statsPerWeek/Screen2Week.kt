@@ -1,8 +1,7 @@
-package com.example.wearnn.presentation.ui.composables.statsPerDay
+package com.example.wearnn.presentation.ui.composables.statsPerWeek
 
 import ActivityStat
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,15 +25,37 @@ import com.example.wearnn.utils.AppColors
 import com.example.wearnn.utils.AppFonts
 import com.example.wearnn.viewModel.HealthViewModel
 
-
 @Composable
 fun ActivityRowSimple(activityStat: ActivityStat) {
     Row(
         modifier = Modifier
+            .offset(x = 45.dp)
             .fillMaxWidth()
             .padding(horizontal = 10.dp, vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        Canvas(modifier = Modifier.size(35.dp)) {
+        activityStat.color?.let {
+            drawArc(
+                color = it.copy(alpha = 0.3f),
+                startAngle = -225f,
+                sweepAngle = 270f,
+                useCenter = false,
+                style = Stroke(width = 5.dp.toPx(), cap = StrokeCap.Round)
+            )
+        }
+        activityStat.color?.let {
+            activityStat.angle?.let { it1 ->
+                drawArc(
+                    color = it,
+                    startAngle = -225f,
+                    sweepAngle = it1,
+                    useCenter = false,
+                    style = Stroke(width = 5.dp.toPx(), cap = StrokeCap.Round)
+                )
+            }
+        }
+    }
         Column(
             horizontalAlignment = Alignment.Start,
             modifier = Modifier
