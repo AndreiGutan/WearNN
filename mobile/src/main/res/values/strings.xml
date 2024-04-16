@@ -31,5 +31,11 @@
     <string name="paymentDiscount">"12"</string>
     <string name="paymentTotal">"1000"</string>
     <string name="remainingPayment">"1000"</string>
+    <string name="who_we_are">Who we are: </string>
+    <string name="we_are_4_people_with_various_levels_of_android_and_wearos_experience_we_know_we_are_onto_something_here_our_names_are_adina_preda_elena_udrescu_andrei_gutan_and_liviu_lupascu">We are 4 people with various levels of Android and wearOs experience. We know we are onto something here. Our names are Adina Preda, Elena Udrescu, Andrei Gutan, and Liviu Lupascu.</string>
+    <string name="adina_preda_nn_ro">adina.preda@nn.ro</string>
+    <string name="elena_udrescu_nn_ro">elena.udrescu@nn.ro</string>
+    <string name="andrei_gutan_nn_ro">andrei.gutan@nn.ro</string>
+    <string name="liviu_lupascu_nn_ro">liviu.lupascu@nn.ro</string>
 
 </resources>

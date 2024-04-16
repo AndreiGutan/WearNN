@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -13,18 +15,20 @@ import com.example.wearnn.utils.PreferencesHelper
 import com.google.android.gms.wearable.Node
 import com.google.android.gms.wearable.Wearable
 
-class DashboardActivity : AppCompatActivity() {
+open class DashboardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
+
         // Initialize your UI here
+        //adds user email to top bar
+        val userEmailTextView: TextView = findViewById(R.id.userEmailTextView)
+        userEmailTextView.text = PreferencesHelper.getUserEmail(applicationContext)
+
 
     }
-    override fun onResume() {
-        super.onResume()
-        checkForConnectedWearDevices()
-    }
+
     private fun checkForConnectedWearDevices() {
         val nodeClient = Wearable.getNodeClient(this)
         nodeClient.connectedNodes.addOnSuccessListener { nodes ->
@@ -40,6 +44,7 @@ class DashboardActivity : AppCompatActivity() {
             }
         }
     }
+
 
     private fun checkAccountSyncStatus(nodes: List<Node>) {
         val isAccountSynced = PreferencesHelper.isAccountSyncedWithWear(this)
@@ -81,8 +86,16 @@ class DashboardActivity : AppCompatActivity() {
             }
             R.id.menuNotification -> Toast.makeText(this, "Notifications Selected", Toast.LENGTH_SHORT).show()
             R.id.settings -> Toast.makeText(this, "Settings Selected", Toast.LENGTH_SHORT).show()
-            R.id.share -> Toast.makeText(this, "Share Selected", Toast.LENGTH_SHORT).show()
-            R.id.aboutus -> Toast.makeText(this, "About Us Selected", Toast.LENGTH_SHORT).show()
+            R.id.share -> {
+                val sendIntent: Intent = Intent().apply {
+                            action = Intent.ACTION_SEND
+                            putExtra(Intent.EXTRA_TEXT, "This is my text to send.")
+                            type = "text/plain"
+                        }
+                val shareIntent = Intent.createChooser(sendIntent, null)
+                startActivity(shareIntent)
+            }
+            R.id.aboutus -> startActivity(Intent(this, AboutUsActivity::class.java))
             R.id.logoutButton ->  { PreferencesHelper.setLoggedIn(applicationContext, false)
                                     startActivity(Intent(this, LoginActivity::class.java))
                                     finish()
