@@ -20,10 +20,6 @@
         <activity android:name=".activities.LoginActivity"
             android:exported="true"
             android:taskAffinity="">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
 
         <!-- SignUpActivity does not have intent filters since it's not a direct entry point -->
@@ -34,7 +30,14 @@
         <!-- DashboardActivity to display user data or other information after login -->
         <activity android:name=".activities.DashboardActivity"
             android:exported="true"
-            android:taskAffinity="" />
+            android:taskAffinity="" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+
 
         <!-- Payment activity calculates a basic discount according to the bioData received from the wearOS device -->
         <activity android:name=".activities.PaymentActivity"
