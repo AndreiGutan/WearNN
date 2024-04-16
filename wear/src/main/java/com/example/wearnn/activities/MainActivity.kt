@@ -2,6 +2,7 @@ package com.example.wearnn.activities
 
 import HealthViewModelFactory
 import Screen1Week
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -21,26 +22,42 @@ import com.example.wearnn.presentation.ui.composables.statsPerWeek.Screen2Week
 import com.example.wearnn.presentation.ui.composables.statsPerDay.Screen3Day
 import com.example.wearnn.viewModel.HealthViewModel
 import com.example.wearnn.data.database.AppDatabase
+import com.example.wearnn.utils.PermissionUtils
 
 
 class MainActivity : ComponentActivity() {
+    private lateinit var healthViewModel: HealthViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
 
-        Log.d("MainActivity", "Initializing database")
+        setupViewModel()
+        setupContent()
+        PermissionUtils.checkAndRequestPermissions(this)
+    }
+
+    private fun setupViewModel() {
         val database = AppDatabase.getDatabase(this)
-        Log.d("MainActivity", "Database initializedAAAAAAAAAAAAAAAAAAAAAA: $database")
         val healthDataDao = database.healthDataDao()
-        Log.d("MainActivity", "DAO initialized: $healthDataDao")
         val viewModelFactory = HealthViewModelFactory(healthDataDao)
-        Log.d("MainActivity", "ViewModelFactory created")
+        healthViewModel = ViewModelProvider(this, viewModelFactory)[HealthViewModel::class.java]
+    }
 
-
+    private fun setupContent() {
         setContent {
             WearNNTheme {
-                val healthViewModel: HealthViewModel = ViewModelProvider(this, viewModelFactory)[HealthViewModel::class.java]
                 PagerContent(healthViewModel)
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == PermissionUtils.REQUEST_PERMISSIONS_CODE) {
+            val allGranted = grantResults.all { it == PackageManager.PERMISSION_GRANTED }
+            if (!allGranted) {
+                // Implement your logic for a fallback or a user dialog explaining why you need the permissions
             }
         }
     }
@@ -79,3 +96,4 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
