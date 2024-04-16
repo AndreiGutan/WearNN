@@ -11,5 +11,5 @@ data class HealthData(
     val progress: Int,  // Assuming this is a sum of daily activity or similar
     val goal: Int,  // Daily goal
     val date: LocalDate,
-    val type: String  // Type of the data, e.g., "steps", "heartRate"
+    val type: String  // Type of the data "Move" "Stand" "Exercise" "Steps" "Distance" "Climbed"
 )

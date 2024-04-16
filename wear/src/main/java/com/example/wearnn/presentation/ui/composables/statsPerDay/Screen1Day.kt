@@ -18,29 +18,37 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.Text
 import com.example.wearnn.utils.AppFonts
+import com.example.wearnn.utils.StatsNames
 import com.example.wearnn.viewModel.HealthViewModel
 
 @Composable
 fun Screen1Day(viewModel: HealthViewModel) {
     val isLoading by viewModel.isLoading.collectAsState()
-    val dailyStats by viewModel.configuredDailyData.collectAsState()
+    val allStats by viewModel.configuredDailyData.collectAsState()
 
-    Log.d("Screen1Day", "Is Loading: $isLoading")
-    Log.d("Screen1Day", "Daily stats count: ${dailyStats.size}")
+    // Custom order: Move (outer), Exercise (middle), Stand (inner)
+    val dailyStats = allStats.filter { it.title in listOf(StatsNames.move, StatsNames.exercise, StatsNames.stand) }
+    val orderedStats = listOfNotNull(
+        dailyStats.find { it.title == StatsNames.move },
+        dailyStats.find { it.title == StatsNames.exercise },
+        dailyStats.find { it.title == StatsNames.stand }
+    )  // Ensure no null values are included
+
+    Log.d("Screen1Day", "Loading: $isLoading, Filtered stats count: ${dailyStats.size}")
 
     if (isLoading) {
         Text("Loading...", style = TextStyle(fontSize = 18.sp))
-    } else if (dailyStats.isEmpty()) {
-        Text("No data available", style = TextStyle(fontSize = 18.sp))
-        Log.d("Screen1Day", "No data available")
     } else {
-        DrawStats(dailyStats)
+        if (dailyStats.isEmpty()) {
+            Text("No data available", style = TextStyle(fontSize = 18.sp))
+        } else {
+            DrawStats(orderedStats)
+        }
     }
 }
 
 @Composable
 private fun DrawStats(dailyStats: List<ActivityStat>) {
-    Log.d("DrawStats", "Drawing stats: Total stats to draw ${dailyStats.size}")
     val strokeWidth = 50f
     val spaceBetweenArcs = 7f
 
@@ -48,7 +56,6 @@ private fun DrawStats(dailyStats: List<ActivityStat>) {
         Canvas(modifier = Modifier.size(300.dp)) {
             var outerRadius = (size.minDimension - strokeWidth * 1.2f) / 2
             dailyStats.forEach { stat ->
-                Log.d("DrawStats", "Stat details: Angle=${stat.angle}, Color=${stat.color}")
                 val startAngle = -225f
                 val sweepAngle = stat.angle
 
@@ -80,12 +87,13 @@ private fun DrawStats(dailyStats: List<ActivityStat>) {
         DisplayTextBelowArcs(dailyStats, Modifier.align(Alignment.BottomCenter))
     }
 }
+
+
 @Composable
 private fun DisplayTextBelowArcs(dailyStats: List<ActivityStat>, modifier: Modifier) {
-    Log.d("DisplayTextBelowArcs", "Displaying text for ${dailyStats.size} stats")
     Column(
         modifier = modifier.padding(bottom = 0.dp),
-        verticalArrangement = Arrangement.spacedBy(-3.dp),
+        verticalArrangement = Arrangement.spacedBy((-3).dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         dailyStats.reversed().forEach { stat ->
@@ -96,7 +104,6 @@ private fun DisplayTextBelowArcs(dailyStats: List<ActivityStat>, modifier: Modif
                     fontFamily = AppFonts.bebasNeueFont,
                     style = TextStyle(fontSize = 26.sp)
                 )
-                Log.d("DisplayTextBelowArcs", "Stat text: ${stat.progress} with color ${stat.color}")
             }
         }
     }

@@ -17,7 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.wearnn.presentation.theme.WearNNTheme
 import com.example.wearnn.presentation.ui.composables.statsPerDay.Screen1Day
 import com.example.wearnn.presentation.ui.composables.statsPerDay.Screen2Day
-import com.example.wearnn.presentation.ui.composables.statsPerDay.Screen2Week
+import com.example.wearnn.presentation.ui.composables.statsPerWeek.Screen2Week
 import com.example.wearnn.presentation.ui.composables.statsPerDay.Screen3Day
 import com.example.wearnn.viewModel.HealthViewModel
 import com.example.wearnn.data.database.AppDatabase
@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
 
         Log.d("MainActivity", "Initializing database")
         val database = AppDatabase.getDatabase(this)
-        Log.d("MainActivity", "Database initialized: $database")
+        Log.d("MainActivity", "Database initializedAAAAAAAAAAAAAAAAAAAAAA: $database")
         val healthDataDao = database.healthDataDao()
         Log.d("MainActivity", "DAO initialized: $healthDataDao")
         val viewModelFactory = HealthViewModelFactory(healthDataDao)

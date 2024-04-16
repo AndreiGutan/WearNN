@@ -27,25 +27,29 @@ fun Screen1Week(healthViewModel: HealthViewModel) {
     val averageMove = weeklyData.flatten().filter { it.type == StatsNames.move }.map { it.progress.toDouble() }.average()
     val averageExercise = weeklyData.flatten().filter { it.type == StatsNames.exercise }.map { it.progress.toDouble() }.average()
     val averageStand = weeklyData.flatten().filter { it.type == StatsNames.stand }.map { it.progress.toDouble() }.average()
+    val completedDays = healthViewModel.countCompletedDays(weeklyData)
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 10.dp),
+            .padding(top = 28.dp),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "This Week", fontSize = 18.sp, textAlign = TextAlign.Center)
+        Text(text = "This Week", fontSize = 16.sp, textAlign = TextAlign.Center)
+        Text(text = "Completed $completedDays/7", fontSize = 16.sp, textAlign = TextAlign.Center)
         Row(
             modifier = Modifier
                 .horizontalScroll(rememberScrollState())
-                .padding(vertical = 8.dp),
+                .padding(vertical = 13.dp),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             weeklyData.zip(listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")).forEach { (data, day) ->
                 MiniDayStats(healthData = data, day = day)
             }
         }
+        // Display completion count
+
         // Display averages
         Text(text = "Averages:", fontSize = 16.sp, textAlign = TextAlign.Center)
         Text(text = "Move: ${String.format("%.2f", averageMove)}", fontSize = 14.sp)
@@ -53,6 +57,7 @@ fun Screen1Week(healthViewModel: HealthViewModel) {
         Text(text = "Stand: ${String.format("%.2f", averageStand)}", fontSize = 14.sp)
     }
 }
+
 
 @Composable
 fun MiniDayStats(healthData: List<HealthData>, day: String, modifier: Modifier = Modifier) {
@@ -64,8 +69,11 @@ fun MiniDayStats(healthData: List<HealthData>, day: String, modifier: Modifier =
 
     Column(modifier = modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
         Text(text = day, fontSize = 10.sp, textAlign = TextAlign.Center)
-        Box(contentAlignment = Alignment.Center, modifier = Modifier.size(25.dp)) {
-            Canvas(modifier = Modifier.fillMaxSize()) {
+        Box(contentAlignment = Alignment.Center, modifier = Modifier
+            .padding(horizontal = 1.dp)
+            .size(29.dp)) {
+            Canvas(modifier = Modifier
+                .fillMaxSize()) {
                 var outerRadius = (size.minDimension - 6f * 2f) / 2
                 healthData.forEach { data ->
                     val startAngle = -225f
