@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -28,12 +29,16 @@ import com.example.wearnn.viewModel.HealthViewModel
 fun Screen1Week(healthViewModel: HealthViewModel) {
     val weeklyData by healthViewModel.weeklyData.collectAsState()
 
-    val averageMove = weeklyData.flatten().filter { it.type == StatsNames.move }.map { it.progress.toDouble() }.average()
-    val averageExercise = weeklyData.flatten().filter { it.type == StatsNames.exercise }.map { it.progress.toDouble() }.average()
-    val averageStand = weeklyData.flatten().filter { it.type == StatsNames.stand }.map { it.progress.toDouble() }.average()
+    val filteredWeeklyData = weeklyData.map { dailyData ->
+        dailyData.filter { it.type in listOf(StatsNames.move, StatsNames.exercise, StatsNames.stand) }
+    }
+
+    val averageMove = filteredWeeklyData.flatten().filter { it.type == StatsNames.move }.map { it.progress.toDouble() }.average()
+    val averageExercise = filteredWeeklyData.flatten().filter { it.type == StatsNames.exercise }.map { it.progress.toDouble() }.average()
+    val averageStand = filteredWeeklyData.flatten().filter { it.type == StatsNames.stand }.map { it.progress.toDouble() }.average()
 
     // Counting completed days
-    val completedDays = weeklyData.count { dayData ->
+    val completedDays = filteredWeeklyData.count { dayData ->
         healthViewModel.isDayCompleted(dayData)
     }
 
@@ -59,7 +64,7 @@ fun Screen1Week(healthViewModel: HealthViewModel) {
         Row(
             modifier = Modifier.horizontalScroll(rememberScrollState())
         ) {
-            weeklyData.zip(listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")).forEach { (data, day) ->
+            filteredWeeklyData.zip(listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")).forEach { (data, day) ->
                 MiniDayStats(healthData = data, day = day)
             }
         }
@@ -70,6 +75,7 @@ fun Screen1Week(healthViewModel: HealthViewModel) {
         }
     }
 }
+
 @Composable
 fun AverageStats(label: String, average: Double, iconResId: Int, unit: String) {
     Row(
@@ -111,11 +117,14 @@ fun MiniDayStats(healthData: List<HealthData>, day: String, modifier: Modifier =
         )
         Box(contentAlignment = Alignment.Center, modifier = Modifier.size(29.dp)) {
             Canvas(modifier = Modifier.fillMaxSize()) {
-                var outerRadius = (size.minDimension - 6f * 2f) / 2
+                val strokeWidth = 6f
+                var outerRadius = (size.minDimension - strokeWidth * 2) / 2
                 healthData.forEach { data ->
                     val startAngle = -225f
                     val sweepAngle = 270f * data.progress / data.goal
                     val color = colorMap[data.type] ?: Color.Gray
+
+                    // Background arc
                     drawArc(
                         color = color.copy(alpha = 0.3f),
                         startAngle = startAngle,
@@ -123,8 +132,9 @@ fun MiniDayStats(healthData: List<HealthData>, day: String, modifier: Modifier =
                         useCenter = false,
                         topLeft = center - Offset(outerRadius, outerRadius),
                         size = Size(outerRadius * 2, outerRadius * 2),
-                        style = Stroke(width = 6f)
+                        style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
                     )
+                    // Progress arc
                     drawArc(
                         color = color,
                         startAngle = startAngle,
@@ -132,11 +142,13 @@ fun MiniDayStats(healthData: List<HealthData>, day: String, modifier: Modifier =
                         useCenter = false,
                         topLeft = center - Offset(outerRadius, outerRadius),
                         size = Size(outerRadius * 2, outerRadius * 2),
-                        style = Stroke(width = 6f)
+                        style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
                     )
-                    outerRadius -= (6f + 1f)
+                    outerRadius -= (strokeWidth + 1f)  // Adjusted for more spacing
                 }
             }
         }
     }
 }
+
+

@@ -2,6 +2,7 @@ package com.example.wearnn.activities
 
 import HealthViewModelFactory
 import Screen1Week
+import Screen3Week
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -87,11 +88,12 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun WeeklyContent(healthViewModel: HealthViewModel) {
-        val verticalPagerState = rememberPagerState(pageCount = { 2 })
+        val verticalPagerState = rememberPagerState(pageCount = { 3 })
         VerticalPager(state = verticalPagerState, modifier = Modifier.fillMaxSize()) { page ->
             when (page) {
                 0 -> Screen1Week(healthViewModel)
                 1 -> Screen2Week(healthViewModel)
+                2 -> Screen3Week()
             }
         }
     }
