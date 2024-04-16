@@ -1,101 +1,98 @@
 package com.example.wearnn.presentation.ui.composables.statsPerWeek
 
 import ActivityStat
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.Text
+import com.example.wearnn.R
 import com.example.wearnn.utils.AppColors
 import com.example.wearnn.utils.AppFonts
+import com.example.wearnn.utils.StatsNames
+import com.example.wearnn.utils.Units
 import com.example.wearnn.viewModel.HealthViewModel
 
 @Composable
-fun ActivityRowSimple(activityStat: ActivityStat) {
+fun ActivityRowWeeklyAvg(activityStat: ActivityStat) {
+    val iconId = when (activityStat.title) {
+        StatsNames.avgsteps, StatsNames.steps -> R.drawable.ic_steps
+        StatsNames.avgdistance, StatsNames.distance -> R.drawable.ic_distance
+        StatsNames.avgclimbed, StatsNames.climbed -> R.drawable.ic_climb
+        else -> null
+    }
+    if (iconId == null) {
+        println("Debug: Icon ID is null for ${activityStat.title}")
+    } else {
+        println("Debug: Loading icon for ${activityStat.title}")
+    }
+
+
+
+    val displayText = if (activityStat.unit == Units.kilometers) {
+        val kilometers = activityStat.progress / 1000.0  // Convert meters to kilometers
+        "${String.format("%.2f", kilometers)} km"  // Format to two decimal places
+    } else {
+        "${activityStat.progress} ${activityStat.unit}"
+    }
+
     Row(
         modifier = Modifier
-            .offset(x = 45.dp)
+            .offset(x = 4.dp)
             .fillMaxWidth()
-            .padding(horizontal = 10.dp, vertical = 6.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .padding(horizontal = 50.dp, vertical = 5.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Canvas(modifier = Modifier.size(35.dp)) {
-        activityStat.color?.let {
-            drawArc(
-                color = it.copy(alpha = 0.3f),
-                startAngle = -225f,
-                sweepAngle = 270f,
-                useCenter = false,
-                style = Stroke(width = 5.dp.toPx(), cap = StrokeCap.Round)
+        iconId?.let {
+            Image(
+                painter = painterResource(id = it),
+                contentDescription = "${activityStat.title} icon",
+                modifier = Modifier.size(45.dp)
             )
         }
-        activityStat.color?.let {
-            activityStat.angle?.let { it1 ->
-                drawArc(
-                    color = it,
-                    startAngle = -225f,
-                    sweepAngle = it1,
-                    useCenter = false,
-                    style = Stroke(width = 5.dp.toPx(), cap = StrokeCap.Round)
-                )
-            }
-        }
-    }
         Column(
             horizontalAlignment = Alignment.Start,
-            modifier = Modifier
-                .padding(start = 8.dp)
+            modifier = Modifier.padding(start = 8.dp)
         ) {
             Text(
                 text = activityStat.title,
+                style = TextStyle(fontSize = 15.sp),
                 color = AppColors.customGreyNonImportant,
-                fontFamily = AppFonts.bebasNeueFont,
-                style = TextStyle(fontSize = 15.sp)
+                fontFamily = AppFonts.bebasNeueFont
             )
             Text(
-                text = "${activityStat.progress} ${activityStat.unit}",
-                color = Color.White,
-                fontFamily = AppFonts.bebasNeueFont,
-                style = TextStyle(fontSize = 20.sp)
+                text = displayText,
+                style = TextStyle(fontSize = 20.sp),
+                fontFamily = AppFonts.bebasNeueFont
             )
         }
     }
 }
 
-
 @Composable
 fun Screen2Week(viewModel: HealthViewModel) {
-    // Assume viewModel has a function to get weekly averages for steps, distance, and climbed.
     val weekStats by viewModel.weeklyAverageStats.collectAsState()
 
     Column(
         modifier = Modifier
-            .offset(y = 20.dp)
-            .fillMaxSize()
+            .padding(top = 20.dp)
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "This week",
-            modifier = Modifier.align(Alignment.CenterHorizontally),
+            text = "This Week",
             fontFamily = AppFonts.bebasNeueFont,
             style = TextStyle(fontSize = 29.sp)
         )
         weekStats.forEach { activityStat ->
-            ActivityRowSimple(activityStat)
+            ActivityRowWeeklyAvg(activityStat)
         }
     }
 }
