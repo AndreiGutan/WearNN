@@ -54,7 +54,7 @@ fun ActivityRowWeeklyAvg(activityStat: ActivityStat) {
             Image(
                 painter = painterResource(id = it),
                 contentDescription = "${activityStat.title} icon",
-                modifier = Modifier.size(45.dp)
+                modifier = Modifier.size(27.dp)
             )
         }
         Column(

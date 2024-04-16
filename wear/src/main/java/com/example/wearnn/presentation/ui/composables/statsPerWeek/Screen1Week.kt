@@ -75,13 +75,13 @@ fun AverageStats(label: String, average: Double, iconResId: Int, unit: String) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start,
-        modifier = Modifier.padding(vertical = 3.dp)
+        modifier = Modifier.padding(vertical = 2.dp)
     ) {
         Icon(
             painter = painterResource(id = iconResId),
             contentDescription = "$label icon",
             tint = Color.Unspecified, // Use this to not apply any tint
-            modifier = Modifier.size(24.dp).padding(end = 8.dp)
+            modifier = Modifier.size(28.dp).padding(end = 5.dp)
         )
         Text(
             text = "Avg: ${String.format("%.1f", average)} $unit",
