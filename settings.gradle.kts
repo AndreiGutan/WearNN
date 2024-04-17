@@ -22,4 +22,5 @@ dependencyResolutionManagement {
 rootProject.name = "Wear NN"
 include(":mobile")
 include(":wear")
+
  

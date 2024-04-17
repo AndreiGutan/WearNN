@@ -4,13 +4,13 @@
 
 
     <item
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:title="@string/notifications"
         android:id="@+id/menuNotification"
         android:icon="@drawable/nn_icon_bell"/>
 
     <item
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:title=" "
         android:icon="@drawable/baseline_menu">
 

@@ -1,5 +1,6 @@
 package com.example.wearnn.activities
 
+import com.example.wearnn.activities.DashboardActivity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -9,9 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.wearnn.R
 import com.example.wearnn.utils.PreferencesHelper
-import com.google.android.gms.tasks.Tasks
-import com.google.android.gms.wearable.PutDataMapRequest
-import com.google.android.gms.wearable.Wearable
+
 class SignUpActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

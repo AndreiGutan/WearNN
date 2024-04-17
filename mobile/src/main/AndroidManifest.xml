@@ -16,37 +16,41 @@
         android:theme="@style/Theme.WearNN"
         android:enableOnBackInvokedCallback="true">
 
-        <!-- LoginActivity is the entry point of the app and has the MAIN and LAUNCHER intent filters -->
+
+
         <activity android:name=".activities.LoginActivity"
-            android:exported="true"
-            android:taskAffinity="">
-        </activity>
-
-        <!-- SignUpActivity does not have intent filters since it's not a direct entry point -->
-        <activity android:name=".activities.SignUpActivity"
-            android:exported="true"
-            android:taskAffinity="" />
-
-        <!-- DashboardActivity to display user data or other information after login -->
-        <activity android:name=".activities.DashboardActivity"
-            android:exported="true"
-            android:taskAffinity="" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
+        <activity android:name=".activities.DashboardActivity"
+            android:exported="true"/>
 
+        <activity android:name=".activities.MainActivity"
+            android:exported="true"/>
 
-        <!-- Payment activity calculates a basic discount according to the bioData received from the wearOS device -->
-        <activity android:name=".activities.PaymentActivity"
-            android:exported="true"
-            android:taskAffinity="" />
+        <activity android:name=".activities.SignUpActivity"
+            android:exported="true"/>
 
         <activity android:name=".activities.AboutUsActivity"
-            android:exported="true"
-            android:taskAffinity="" />
+            android:exported="true"/>
+
+
+
+        <!--<activity android:name=".activities.com.example.wearnn.activities.DashboardActivity"
+    android:exported="true">
+    <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+    </intent-filter>
+</activity>
+-->
+
+
+
 
         <!-- Service declaration should be within the application tag -->
         <service android:name=".services.MessageLayerListenerService"

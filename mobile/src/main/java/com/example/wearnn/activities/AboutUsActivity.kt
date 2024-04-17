@@ -2,13 +2,13 @@ package com.example.wearnn.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
 import com.example.wearnn.R
 
+import androidx.appcompat.app.AppCompatActivity
 class AboutUsActivity : DashboardActivity() {
 
+    /*
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.about_us)
@@ -18,5 +18,5 @@ class AboutUsActivity : DashboardActivity() {
         nnLogo.setOnClickListener{
             startActivity(Intent(this, DashboardActivity::class.java))
         }
-    }
+    }*/
 }

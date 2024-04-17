@@ -67,20 +67,40 @@ android {
 }
 
 dependencies {
-    implementation("com.google.android.gms:play-services-wearable:18.1.0")
+    implementation(project(":wear"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.play.services.wearable)
+
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.ui)
+    implementation(libs.androidx.tiles)
+    implementation(libs.androidx.tiles.material)
     implementation(libs.androidx.room.common)
     implementation(libs.androidx.room.ktx)
-    implementation(project(":wear"))
+
+    implementation(libs.androidx.compose.navigation)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.core.splashscreen)
+
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.runtime.livedata)
+
+
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.play.services.wearable)
+
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    wearApp(project(":wear"))
-
 }
