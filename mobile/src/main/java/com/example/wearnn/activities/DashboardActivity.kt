@@ -1,7 +1,7 @@
 package com.example.wearnn.activities
 
-import ActivityStat
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -33,6 +34,7 @@ import com.example.wearnn.utils.HealthViewModelFactory
 import com.example.wearnn.utils.StatsNames
 import com.example.wearnn.viewModel.HealthViewModel
 import com.example.wearnn.data.database.AppDatabase
+import com.example.wearnn.utils.ActivityStat
 
 
 open class DashboardActivity : AppCompatActivity() {
@@ -40,7 +42,7 @@ open class DashboardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        Log.d("Dashboard1lMobile", "aa1")
         // Assuming you have a method to get your database instance and subsequently the DAO
         val healthDataDao = AppDatabase.getDatabase(this).healthDataDao()
 
@@ -57,14 +59,21 @@ open class DashboardActivity : AppCompatActivity() {
 
 @Composable
 fun HealthStatsScreen(viewModel: HealthViewModel) {
-    val dailyStats = viewModel.configuredDailyData.collectAsState()
+    val activityStats = viewModel.configuredDailyData.collectAsState().value
 
-    Column {
-        dailyStats.value.forEach { stat ->
-            ActivityStatRow(activityStat = stat)
+    LaunchedEffect(key1 = activityStats) {
+        Log.d("DashboardActivity", "Recomposing with stats: $activityStats")
+    }
+
+    if (activityStats.isEmpty()) {
+        Text("No data available")
+    } else {
+        activityStats.forEach { stat ->
+            ActivityStatRow(stat)
         }
     }
 }
+
 
 
 @Composable

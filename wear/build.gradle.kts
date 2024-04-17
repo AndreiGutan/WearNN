@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-    kotlin("kapt") // Adding the KAPT plugin using Kotlin DSL
+    kotlin("kapt")
 }
 
 android {

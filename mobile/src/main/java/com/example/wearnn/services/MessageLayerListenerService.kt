@@ -5,9 +5,20 @@ import android.util.Log
 import com.google.android.gms.wearable.MessageEvent
 import com.google.android.gms.wearable.WearableListenerService
 import com.example.wearnn.utils.PreferencesHelper
+import com.google.android.gms.wearable.DataEvent
+import com.google.android.gms.wearable.DataEventBuffer
+import com.google.android.gms.wearable.DataMapItem
 
 class MessageLayerListenerService : WearableListenerService() {
-
+    override fun onDataChanged(dataEvents: DataEventBuffer) {
+        dataEvents.forEach { event ->
+            if (event.type == DataEvent.TYPE_CHANGED && event.dataItem.uri.path == "/yourPath") {
+                DataMapItem.fromDataItem(event.dataItem).dataMap.apply {
+                    // Handle your data here
+                }
+            }
+        }
+    }
     override fun onMessageReceived(messageEvent: MessageEvent) {
         super.onMessageReceived(messageEvent)
 
