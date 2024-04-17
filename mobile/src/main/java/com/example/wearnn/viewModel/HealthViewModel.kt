@@ -40,11 +40,11 @@ class HealthViewModel(private val healthDataDao: HealthDataDao) : ViewModel() {
     private fun loadTodayData() {
         viewModelScope.launch {
             try {
-                Log.d("HealthViewModelMobile", "Today Data About to load today's data"
+                Log.d("HealthViewModel", "Today Data About to load today's data")
                 healthDataDao.loadHealthDataForDay(LocalDate.now()).collect { data ->
                     Log.d("HealthViewModelMobile", "Today Data Data loaded: $data")
                     _dailyData.value = data
-                    Log.d("loadTodayDataMobile", "loadTodayData: ${_dailyData.value.joinToString { "HealthData(id=${it.id}, progress=${it.progress}, goal=${it.goal}, date=${it.date}, type=${it.type})" }}")
+                    Log.d("loadTodayData", "loadTodayData: ${_dailyData.value.joinToString { "HealthData(id=${it.id}, progress=${it.progress}, goal=${it.goal}, date=${it.date}, type=${it.type})" }}")
 
                     convertHealthDataToActivityStats()
                     _isLoading.value = false

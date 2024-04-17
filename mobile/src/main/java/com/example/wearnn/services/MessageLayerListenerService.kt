@@ -13,12 +13,16 @@ class MessageLayerListenerService : WearableListenerService() {
     override fun onDataChanged(dataEvents: DataEventBuffer) {
         dataEvents.forEach { event ->
             if (event.type == DataEvent.TYPE_CHANGED && event.dataItem.uri.path == "/yourPath") {
-                DataMapItem.fromDataItem(event.dataItem).dataMap.apply {
-                    // Handle your data here
-                }
+                val dataMap = DataMapItem.fromDataItem(event.dataItem).dataMap
+                // Example of extracting data
+                val value = dataMap.getInt("key_for_your_value")
+                Log.d("DataLayer", "Received data value: $value")
+
+                // Handle the data (update UI, store in database, etc.)
             }
         }
     }
+
     override fun onMessageReceived(messageEvent: MessageEvent) {
         super.onMessageReceived(messageEvent)
 
