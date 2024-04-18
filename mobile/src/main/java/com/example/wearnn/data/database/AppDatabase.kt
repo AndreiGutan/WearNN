@@ -68,7 +68,7 @@ abstract class AppDatabase : RoomDatabase() {
                 // Move (Calories burned: 100 to 500)
                 dataList.add(
                     HealthData(
-                        progress = (100..500).random(),
+                        progress = (350..500).random(),
                         goal = 500,
                         date = startDate.plusDays(i.toLong()),
                         type = StatsNames.move
@@ -78,7 +78,7 @@ abstract class AppDatabase : RoomDatabase() {
                 // Stand (Hours: 1 to 16, not exceeding 24)
                 dataList.add(
                     HealthData(
-                        progress = (1..16).random(),
+                        progress = (8..15).random(),
                         goal = 16,
                         date = startDate.plusDays(i.toLong()),
                         type = StatsNames.stand
@@ -88,7 +88,7 @@ abstract class AppDatabase : RoomDatabase() {
                 // Exercise (Minutes: 60 to 360)
                 dataList.add(
                     HealthData(
-                        progress = (60..360).random(),
+                        progress = (180..360).random(),
                         goal = 360,
                         date = startDate.plusDays(i.toLong()),
                         type = StatsNames.exercise
@@ -98,7 +98,7 @@ abstract class AppDatabase : RoomDatabase() {
                 // Steps (1000 to 5000)
                 dataList.add(
                     HealthData(
-                        progress = (1000..5000).random(),
+                        progress = (3000..5000).random(),
                         goal = 5000,
                         date = startDate.plusDays(i.toLong()),
                         type = StatsNames.steps
@@ -108,7 +108,7 @@ abstract class AppDatabase : RoomDatabase() {
                 // Distance (0.2km to 10km)
                 dataList.add(
                     HealthData(
-                        progress = (200..10000).random(),  // Progress in meters for consistency
+                        progress = (6000..10000).random(),  // Progress in meters for consistency
                         goal = 10000,
                         date = startDate.plusDays(i.toLong()),
                         type = StatsNames.distance
@@ -118,7 +118,7 @@ abstract class AppDatabase : RoomDatabase() {
                 // Climbed (2m to 60m)
                 dataList.add(
                     HealthData(
-                        progress = (2..60).random(),
+                        progress = (25..60).random(),
                         goal = 60,
                         date = startDate.plusDays(i.toLong()),
                         type = StatsNames.climbed
