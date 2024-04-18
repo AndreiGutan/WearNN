@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.compose.ui.platform.ComposeView
 import androidx.lifecycle.ViewModelProvider
 import com.example.wearnn.R
@@ -24,12 +25,17 @@ import com.example.wearnn.presentation.theme.MobileNNTheme
 import com.example.wearnn.utils.HealthViewModelFactory
 
 
-open class DashboardActivity : ComponentActivity() {
+open class DashboardActivity : AppCompatActivity() {
     private lateinit var healthViewModel: HealthViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
+
+        // Set up the Toolbar
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
         setupViewModel()
         initializeUI()
 

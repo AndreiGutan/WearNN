@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/NNMobileHome"
@@ -15,7 +14,6 @@
         android:src="@drawable/vignet_nn_pos_rgb"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <TextView
         android:layout_width="0dp"
@@ -47,6 +45,4 @@
         app:layout_constraintStart_toEndOf="@id/NNMobileHome"
         app:layout_constraintTop_toTopOf="@id/NNMobileHome"
         app:layout_constraintVertical_bias="0.623" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
