@@ -134,6 +134,9 @@ class HealthViewModel(private val healthDataDao: HealthDataDao) : ViewModel() {
                         StatsNames.move -> AppColors.caloriesRed
                         StatsNames.exercise -> AppColors.activityYellow
                         StatsNames.stand -> AppColors.standBlue
+                        StatsNames.steps -> AppColors.stepsAndDistanceGreen
+                        StatsNames.distance -> AppColors.stepsAndDistanceGreen
+                        StatsNames.climbed -> AppColors.climbGreen
                         else -> Color.Gray // Default color
                     }
                 )

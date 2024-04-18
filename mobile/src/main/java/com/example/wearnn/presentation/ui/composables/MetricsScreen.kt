@@ -1,15 +1,16 @@
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -18,11 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
-import com.example.wearnn.viewModel.HealthViewModel
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -30,6 +27,7 @@ import com.example.wearnn.R
 import com.example.wearnn.utils.AppColors
 import com.example.wearnn.utils.AppFonts
 import com.example.wearnn.utils.StatsNames
+import com.example.wearnn.viewModel.HealthViewModel
 
 @Composable
 fun MetricsScreen(healthViewModel: HealthViewModel) {
@@ -56,59 +54,69 @@ fun MetricsScreen(healthViewModel: HealthViewModel) {
 fun StatRow(stat: ActivityStat, iconMap: Map<String, Int>) {
     val iconId = iconMap[stat.title] ?: R.drawable.ic_move  // Default icon
 
-    Row(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .padding(horizontal = 10.dp, vertical = 3.dp)
+            .background(AppColors.customDarkGrey, RoundedCornerShape(16.dp))  // Rounded corners and blue background
     ) {
-        Box(
-            modifier = Modifier.size(50.dp),
-            contentAlignment = Alignment.Center
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp, vertical = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            // Draw the arc
-            Canvas(modifier = Modifier.matchParentSize()) {
-                stat.color?.let {
-                    drawArc(
-                        color = it.copy(alpha = 0.3f),
-                        startAngle = -225f,
-                        sweepAngle = 270f,
-                        useCenter = false,
-                        style = Stroke(width = 4.dp.toPx(), cap = StrokeCap.Round)
-                    )
-                    stat.angle?.let { angle ->
+            Box(
+                modifier = Modifier.size(80.dp)
+                    .offset(x = 10.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                // Draw the arc
+                Canvas(modifier = Modifier.matchParentSize()
+                    .offset(y=4.dp)) {
+                    stat.color?.let {
                         drawArc(
-                            color = it,
+                            color = it.copy(alpha = 0.3f),
                             startAngle = -225f,
-                            sweepAngle = angle,
+                            sweepAngle = 270f,
                             useCenter = false,
-                            style = Stroke(width = 4.dp.toPx(), cap = StrokeCap.Round)
+                            style = Stroke(width = 8.dp.toPx(), cap = StrokeCap.Round)
                         )
+                        stat.angle?.let { angle ->
+                            drawArc(
+                                color = it,
+                                startAngle = -225f,
+                                sweepAngle = angle,
+                                useCenter = false,
+                                style = Stroke(width = 8.dp.toPx(), cap = StrokeCap.Round)
+                            )
+                        }
                     }
                 }
+
+                // Overlay the icon
+                Image(
+                    painter = painterResource(id = iconId),
+                    contentDescription = "${stat.title} icon",
+                    modifier = Modifier.size(55.dp)
+                )
             }
 
-            // Overlay the icon
-            Image(
-                painter = painterResource(id = iconId),
-                contentDescription = "${stat.title} icon",
-                modifier = Modifier.size(24.dp)  // Adjusted for proper fit within the arc
-            )
-        }
-
-        Column(modifier = Modifier.padding(start = 8.dp)) {
-            Text(
-                text = stat.title,
-                color = AppColors.customGreyNonImportant,
-                fontFamily = AppFonts.bebasNeueFont,
-                style = TextStyle(fontSize = 18.sp)
-            )
-            Text(
-                text = "${stat.progress}/${stat.goal} ${stat.unit}",
-                color = Color.White,
-                fontFamily = AppFonts.bebasNeueFont,
-                style = TextStyle(fontSize = 14.sp)
-            )
+            Column(modifier = Modifier.padding(start = 35.dp)) {
+                Text(
+                    text = stat.title,
+                    color = Color.White,
+                    fontFamily = AppFonts.bebasNeueFont,
+                    style = TextStyle(fontSize = 35.sp)
+                )
+                Text(
+                    text = "${stat.progress} / ${stat.goal} ${stat.unit}",
+                    color = Color.White,
+                    fontFamily = AppFonts.bebasNeueFont,
+                    style = TextStyle(fontSize = 28.sp)
+                )
+            }
         }
     }
 }
+
