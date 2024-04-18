@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    kotlin("kapt") // Adding the KAPT plugin using Kotlin DSL
 }
 
 android {
@@ -8,13 +9,13 @@ android {
 
         signingConfigs {
         getByName("debug") {
-            storeFile = file("D:\\AndroidStudioProjects\\Keysotres\\WearNNKey.jks")
+            storeFile = file("C:\\Users\\Dell 5521\\StudioProjects\\WearNN\\WearNNKey.jks")
             storePassword = "WearNNKey!"
             keyPassword = "WearNNKey!"
             keyAlias = "WearNNKey"
         }
         create("NNKey") {
-            storeFile = file("D:\\AndroidStudioProjects\\Keysotres\\WearNNKey.jks")
+            storeFile = file("C:\\Users\\Dell 5521\\StudioProjects\\WearNN\\WearNNKey.jks")
             storePassword = "WearNNKey!"
             keyPassword = "WearNNKey!"
             keyAlias = "WearNNKey"
@@ -67,7 +68,14 @@ android {
 }
 
 dependencies {
+    val room_version = "2.6.1"
+
+    implementation("androidx.room:room-runtime:$room_version")
+    kapt("androidx.room:room-compiler:$room_version")
+
+
     implementation("com.google.android.gms:play-services-wearable:18.1.0")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.play.services.wearable)
@@ -76,10 +84,15 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.ui)
     implementation(libs.androidx.room.common)
+    implementation(libs.androidx.material3.android)
+
+    implementation(libs.ui.android)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.watchface.complications.data)
+    implementation(libs.androidx.watchface.complications.data.source.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    wearApp(project(":wear"))
+    //wearApp(project(":wear"))
 
 }

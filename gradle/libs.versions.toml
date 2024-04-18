@@ -35,6 +35,9 @@ runtimeLivedata = "1.6.5"
 roomRuntime = "2.6.1"
 roomCompiler = "2.6.1"
 watchfaceComplicationsData = "1.2.1"
+material3Android = "1.2.1"
+uiAndroid = "1.6.5"
+uiAndroidVersion = "1.7.0-alpha06"
 
 
 
@@ -81,6 +84,9 @@ androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtim
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomRuntime" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomCompiler" }
 androidx-watchface-complications-data = { group = "androidx.wear.watchface", name = "watchface-complications-data", version.ref = "watchfaceComplicationsData" }
+androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
+androidx-ui-android = { group = "androidx.compose.ui", name = "ui-android", version.ref = "uiAndroid" }
+ui-android = { group = "androidx.compose.ui", name = "ui-android", version.ref = "uiAndroidVersion" }
 
 
 [plugins]

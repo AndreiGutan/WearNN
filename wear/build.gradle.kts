@@ -7,13 +7,13 @@ plugins {
 android {
     signingConfigs {
         getByName("debug") {
-            storeFile = file("D:\\AndroidStudioProjects\\Keysotres\\WearNNKey.jks")
+            storeFile = file("C:\\Users\\Dell 5521\\StudioProjects\\WearNN\\WearNNKey.jks")
             storePassword = "WearNNKey!"
             keyPassword = "WearNNKey!"
             keyAlias = "WearNNKey"
         }
         create("NNKey") {
-            storeFile = file("D:\\AndroidStudioProjects\\Keysotres\\WearNNKey.jks")
+            storeFile = file("C:\\Users\\Dell 5521\\StudioProjects\\WearNN\\WearNNKey.jks")
             storePassword = "WearNNKey!"
             keyAlias = "WearNNKey"
             keyPassword = "WearNNKey!"
