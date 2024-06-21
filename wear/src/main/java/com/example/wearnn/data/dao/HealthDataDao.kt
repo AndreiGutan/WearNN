@@ -4,12 +4,24 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
+import androidx.room.Update
 import com.example.wearnn.data.model.HealthData
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
 @Dao
 interface HealthDataDao {
+
+    @Query("SELECT * FROM health_data WHERE date = :date AND type = :type")
+    suspend fun getHealthDataByDateAndType(date: LocalDate, type: String): HealthData?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertOrUpdate(healthData: HealthData)
+
+    // Optionally, if you want a separate insert and update method
+    @Update
+    suspend fun update(healthData: HealthData)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertHealthData(data: HealthData)
 

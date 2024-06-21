@@ -24,8 +24,8 @@ android {
 
     defaultConfig {
         applicationId = "com.example.wearnn"
-        minSdk = 33
-        targetSdk = 33
+        minSdk = 26
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
         vectorDrawables.useSupportLibrary = true

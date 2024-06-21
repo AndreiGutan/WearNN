@@ -14,7 +14,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import java.util.concurrent.Executors
 
 @Database(entities = [HealthData::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
