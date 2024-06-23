@@ -5,7 +5,6 @@ import Screen1Week
 import Screen3Week
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,14 +15,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
+import com.example.wearnn.data.database.AppDatabase
 import com.example.wearnn.presentation.theme.WearNNTheme
+import com.example.wearnn.presentation.ui.composables.challenges.ChallengeScreen
 import com.example.wearnn.presentation.ui.composables.statsPerDay.Screen1Day
 import com.example.wearnn.presentation.ui.composables.statsPerDay.Screen2Day
-import com.example.wearnn.presentation.ui.composables.statsPerWeek.Screen2Week
 import com.example.wearnn.presentation.ui.composables.statsPerDay.Screen3Day
-import com.example.wearnn.viewModel.HealthViewModel
-import com.example.wearnn.data.database.AppDatabase
+import com.example.wearnn.presentation.ui.composables.statsPerWeek.Screen2Week
 import com.example.wearnn.utils.PermissionUtils
+import com.example.wearnn.viewModel.HealthViewModel
 
 
 class MainActivity : ComponentActivity() {
@@ -53,7 +53,11 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == PermissionUtils.REQUEST_PERMISSIONS_CODE) {
             val allGranted = grantResults.all { it == PackageManager.PERMISSION_GRANTED }
@@ -65,11 +69,12 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun PagerContent(healthViewModel: HealthViewModel) {
-        val pagerState = rememberPagerState(pageCount = { 2 })
+        val pagerState = rememberPagerState(pageCount = { 3 }) // Updated pageCount to 3
         HorizontalPager(state = pagerState, modifier = Modifier.fillMaxSize()) { page ->
             when (page) {
                 0 -> DailyContent(healthViewModel)
                 1 -> WeeklyContent(healthViewModel)
+                2 -> ChallengeScreen(healthViewModel) // This will be your new challenge screen
             }
         }
     }
@@ -97,5 +102,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+
 }
 
