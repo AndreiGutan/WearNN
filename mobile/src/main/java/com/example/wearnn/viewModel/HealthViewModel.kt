@@ -1,6 +1,5 @@
 package com.example.wearnn.viewModel
 
-
 import ActivityStat
 import android.util.Log
 import androidx.compose.ui.graphics.Color
@@ -9,12 +8,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.wearnn.data.dao.HealthDataDao
 import com.example.wearnn.data.model.HealthData
 import com.example.wearnn.utils.AppColors
-import com.example.wearnn.utils.Goals
 import com.example.wearnn.utils.StatsNames
 import com.example.wearnn.utils.Units
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
@@ -30,23 +27,25 @@ class HealthViewModel(private val healthDataDao: HealthDataDao) : ViewModel() {
     val weeklyData: StateFlow<List<List<HealthData>>> = _weeklyData
 
     init {
+        Log.d("HealthViewModel", "Initialization")
         loadTodayData()
         loadWeeklyData()
         calculateWeeklyAverages()
         convertHealthDataToActivityStats()
+        // startIncrementingData() // Commented out for real sensor data usage
     }
+
     private val _isLoading = MutableStateFlow(true)
     val isLoading: StateFlow<Boolean> = _isLoading
 
     private fun loadTodayData() {
         viewModelScope.launch {
             try {
-                Log.d("HealthViewModelMobile", "Today Data About to load today's data")
+                Log.d("HealthViewModel", "Today Data About to load today's data")
                 healthDataDao.loadHealthDataForDay(LocalDate.now()).collect { data ->
-                    Log.d("HealthViewModelMobile", "Today Data Data loaded: $data")
+                    Log.d("HealthViewModel", "Today Data Data loaded: $data")
                     _dailyData.value = data
-                    Log.d("loadTodayDataMobile", "loadTodayData: ${_dailyData.value.joinToString { "HealthData(id=${it.id}, progress=${it.progress}, goal=${it.goal}, date=${it.date}, type=${it.type})" }}")
-
+                    Log.d("loadTodayData", "loadTodayData: ${_dailyData.value.joinToString { "HealthData(id=${it.id}, progress=${it.progress}, goal=${it.goal}, date=${it.date}, type=${it.type})" }}")
                     convertHealthDataToActivityStats()
                     _isLoading.value = false
                 }
@@ -57,11 +56,9 @@ class HealthViewModel(private val healthDataDao: HealthDataDao) : ViewModel() {
         }
     }
 
-
-
     private fun calculateWeeklyAverages() {
         viewModelScope.launch {
-            val weekData = healthDataDao.loadHealthDataForWeek(LocalDate.now().minusDays(6), LocalDate.now()).collect { data ->
+            healthDataDao.loadHealthDataForWeek(LocalDate.now().minusDays(6), LocalDate.now()).collect { data ->
                 val stepsAverage = data.filter { it.type == StatsNames.steps }.map { it.progress }.average()
                 val distanceAverage = data.filter { it.type == StatsNames.distance }.map { it.progress }.average()
                 val climbedAverage = data.filter { it.type == StatsNames.climbed }.map { it.progress }.average()
@@ -74,6 +71,7 @@ class HealthViewModel(private val healthDataDao: HealthDataDao) : ViewModel() {
             }
         }
     }
+
     private fun loadWeeklyData() {
         viewModelScope.launch {
             val startDate = LocalDate.now().minusDays(6)
@@ -84,38 +82,30 @@ class HealthViewModel(private val healthDataDao: HealthDataDao) : ViewModel() {
             }
         }
     }
+
     private fun convertHealthDataToActivityStats() {
         viewModelScope.launch {
-            Log.d("HealthViewModelMobile", "convertHealthDataToActivityStats Converting health data to activity stats")
-            val validStats = _dailyData.value.filter { data ->
-                Log.d("HealthViewModelMobile", "valid stats get: $data")
-                data.type in listOf(StatsNames.move, StatsNames.exercise, StatsNames.stand, StatsNames.steps, StatsNames.distance, StatsNames.climbed, StatsNames.heartRate)  // Added "heartRate"
-            }
-            Log.d("HealthViewModelMobile", "!!!!!!: $validStats")
-            val stats = validStats.map { healthData ->
-                Log.d("HealthViewModelMobile", "?? s ?$healthData")
-                mapToActivityStat(healthData)
-            }
-            _configuredDailyData.value = stats
-            Log.d("HealthViewModelMobile", "convertHealthDataToActivityStats Activity stats configured: ${_configuredDailyData.value}")
-        }
-    }
-
-
-    // Example function to calculate average progress of a particular statistic
-    fun calculateAverageProgress() {
-        viewModelScope.launch {
-            dailyData.collect { dataList ->
-                val averageProgress = dataList.map { it.progress }.average()
-                // Do something with averageProgress, like storing it in a StateFlow or processing further
+            try {
+                Log.d("HealthViewModel", "convertHealthDataToActivityStats Converting health data to activity stats")
+                val validStats = _dailyData.value.filter { data ->
+                    Log.d("HealthViewModel", "valid stats get: $data")
+                    data.type in listOf(StatsNames.move, StatsNames.exercise, StatsNames.stand, StatsNames.steps, StatsNames.distance, StatsNames.climbed, StatsNames.heartRate)
+                }
+                val stats = validStats.map { healthData ->
+                    Log.d("HealthViewModel", "Converting: $healthData")
+                    mapToActivityStat(healthData)
+                }
+                _configuredDailyData.value = stats
+                Log.d("HealthViewModel", "Activity stats configured: ${_configuredDailyData.value}")
+            } catch (e: Exception) {
+                Log.e("HealthViewModel", "Error converting health data: ${e.message}")
             }
         }
     }
+
     private fun mapToActivityStat(healthData: HealthData): ActivityStat {
-        Log.d("HealthViewModelMobile", "FFFFFFFFFFFFFFFFFFFF stat: ${healthData.type}")
         return when (healthData.type) {
             StatsNames.move, StatsNames.exercise, StatsNames.stand, StatsNames.steps, StatsNames.distance, StatsNames.climbed -> {
-                Log.d("HealthViewModelMobile", "!!1")
                 ActivityStat(
                     title = healthData.type,
                     unit = when (healthData.type) {
@@ -125,7 +115,7 @@ class HealthViewModel(private val healthDataDao: HealthDataDao) : ViewModel() {
                         StatsNames.distance -> Units.kilometers
                         StatsNames.climbed -> Units.meters
                         StatsNames.stand -> Units.hours
-                        else -> Units.minutes // Default to minutes for exercise, stand
+                        else -> Units.minutes
                     },
                     progress = healthData.progress,
                     goal = healthData.goal,
@@ -134,12 +124,11 @@ class HealthViewModel(private val healthDataDao: HealthDataDao) : ViewModel() {
                         StatsNames.move -> AppColors.caloriesRed
                         StatsNames.exercise -> AppColors.activityYellow
                         StatsNames.stand -> AppColors.standBlue
-                        else -> Color.Gray // Default color
+                        else -> Color.Gray
                     }
                 )
             }
             else -> {
-                Log.w("HealthViewModelMobile", "Encountered unknown health data type: ${healthData.type}")
                 ActivityStat(
                     title = "Unknown",
                     unit = "",
@@ -168,4 +157,51 @@ class HealthViewModel(private val healthDataDao: HealthDataDao) : ViewModel() {
         val averageCompletion = healthDataList.sumOf { it.progress.toDouble() / it.goal } / healthDataList.size > 0.8
         return individualCompletion && averageCompletion
     }
+
+    /*
+    private fun startIncrementingData() {
+        Log.d("HealthViewModel", "Starting data increment")
+        viewModelScope.launch {
+            while (true) {
+                delay(2000)
+                incrementData()
+            }
+        }
+    }
+
+    private suspend fun incrementData() {
+        val today = LocalDate.now()
+        val types = listOf(
+            StatsNames.move,
+            StatsNames.stand,
+            StatsNames.exercise,
+            StatsNames.steps,
+            StatsNames.distance,
+            StatsNames.climbed
+        )
+
+        types.forEach { type ->
+            val healthData = healthDataDao.getHealthDataByDateAndType(today, type) ?: HealthData(
+                date = today,
+                type = type,
+                goal = when (type) {
+                    StatsNames.move -> 500
+                    StatsNames.stand -> 16
+                    StatsNames.exercise -> 360
+                    StatsNames.steps -> 5000
+                    StatsNames.distance -> 10000
+                    StatsNames.climbed -> 60
+                    else -> 0
+                },
+                progress = 0
+            )
+
+            healthData.progress += 1
+            healthDataDao.insertOrUpdate(healthData)
+        }
+
+        // Refresh data
+        loadTodayData()
+    }
+    */
 }
