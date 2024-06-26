@@ -75,7 +75,7 @@ class SensorService : Service(), SensorEventListener {
     }
 
     private fun updateCaloriesBurned(newSteps: Int) {
-        val caloriesPerStep = 0.05
+        val caloriesPerStep = 0.06
         val heartRateFactor = when {
             heartRate <= 70 -> 1.0
             heartRate in 71..80 -> 1.0
