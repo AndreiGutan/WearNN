@@ -30,6 +30,6 @@
         android:id="@+id/goto_signup_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/goto_signup_button"/>
+        android:text="@string/goto_signup_button" />
 
 </LinearLayout>

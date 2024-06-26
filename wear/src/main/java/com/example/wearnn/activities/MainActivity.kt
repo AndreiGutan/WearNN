@@ -27,7 +27,6 @@ import android.content.pm.PackageManager
 import com.example.wearnn.presentation.ui.composables.statsPerWeek.Screen1Week
 import com.example.wearnn.services.SensorService
 import com.example.wearnn.utils.ViewModelProvider as CustomViewModelProvider
-
 class MainActivity : ComponentActivity() {
     private lateinit var healthViewModel: HealthViewModel
 
@@ -84,11 +83,12 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun PagerContent(healthViewModel: HealthViewModel) {
-        val pagerState = rememberPagerState(pageCount = { 2 })
+        val pagerState = rememberPagerState(pageCount = { 3 }) // Updated pageCount to 3
         HorizontalPager(state = pagerState, modifier = Modifier.fillMaxSize()) { page ->
             when (page) {
                 0 -> DailyContent(healthViewModel)
                 1 -> WeeklyContent(healthViewModel)
+                2 -> ChallengeScreen(healthViewModel) // This will be your new challenge screen
             }
         }
     }
@@ -116,4 +116,6 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+
 }

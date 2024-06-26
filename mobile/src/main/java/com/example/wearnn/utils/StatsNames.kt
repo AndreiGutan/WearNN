@@ -8,6 +8,7 @@ object StatsNames {
     const val distance = "Distance"
     const val climbed = "Climbed"
     const val heartRate = "heartRate"  // Ensure this matches exactly what's used in data generation
+    const val dailyProgress = "dailyProgress"
 
     // Average statistics (if used, these should match aggregate computations)
     const val avgmove = "Avg Move"
