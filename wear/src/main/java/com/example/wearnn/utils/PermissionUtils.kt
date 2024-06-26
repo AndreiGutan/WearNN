@@ -48,4 +48,12 @@ object PermissionUtils {
             // All permissions are granted; you might want to proceed with operations that require permissions here
         }
     }
+    fun arePermissionsGranted(activity: Activity): Boolean {
+        return checkActivityRecognitionPermission(activity) && checkBodySensorsPermission(activity) &&
+                (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || checkNotificationPermission(activity))
+    }
+
+    private fun checkNotificationPermission(activity: Activity): Boolean {
+        return ContextCompat.checkSelfPermission(activity, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
+    }
 }

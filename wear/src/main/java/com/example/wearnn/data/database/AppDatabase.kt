@@ -12,9 +12,9 @@ import com.example.wearnn.data.dao.HealthDataDao
 import com.example.wearnn.utils.StatsNames
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import java.util.concurrent.Executors
 
 @Database(entities = [HealthData::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
@@ -27,23 +27,18 @@ abstract class AppDatabase : RoomDatabase() {
 
         fun getDatabase(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
-                Log.d("AppDatabase", "s4")
+                Log.d("AppDatabase", "Creating database instance")
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
                     "wearnn_database"
-
                 )
                     .addCallback(object : RoomDatabase.Callback() {
                         override fun onCreate(db: SupportSQLiteDatabase) {
-                            Log.d("AppDatabase", "s5")
                             super.onCreate(db)
                             val dao = getDatabase(context).healthDataDao()
-                            Log.d("AppDatabase", "s2")
-                            // Using CoroutineScope to launch a coroutine
                             CoroutineScope(Dispatchers.IO).launch {
-                                dao.insertAll(provideSimulationData())
-                                Log.d("AppDatabase", "s1")
+                                initializeDataIfEmpty(dao)
                             }
                         }
                     })
@@ -54,77 +49,38 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
-        private fun provideSimulationData(): List<HealthData> {
-            val dataList = mutableListOf<HealthData>()
-            val startDate = LocalDate.now().minusDays(7)  // Starting 8 days ago
+        private suspend fun initializeDataIfEmpty(dao: HealthDataDao) {
+            val today = LocalDate.now()
+            val types = listOf(
+                StatsNames.move,
+                StatsNames.stand,
+                StatsNames.exercise,
+                StatsNames.steps,
+                StatsNames.distance,
+                StatsNames.climbed
+            )
 
-            // Define the number of days for which you want to generate data
-            val numberOfDays = 8
-
-            for (i in 0 until numberOfDays) {
-                // Move (Calories burned: 100 to 500)
-                dataList.add(
-                    HealthData(
-                        progress = (100..500).random(),
-                        goal = 500,
-                        date = startDate.plusDays(i.toLong()),
-                        type = StatsNames.move
-                    )
-                )
-
-                // Stand (Hours: 1 to 16, not exceeding 24)
-                dataList.add(
-                    HealthData(
-                        progress = (1..16).random(),
-                        goal = 16,
-                        date = startDate.plusDays(i.toLong()),
-                        type = StatsNames.stand
-                    )
-                )
-
-                // Exercise (Minutes: 60 to 360)
-                dataList.add(
-                    HealthData(
-                        progress = (60..360).random(),
-                        goal = 360,
-                        date = startDate.plusDays(i.toLong()),
-                        type = StatsNames.exercise
-                    )
-                )
-
-                // Steps (1000 to 5000)
-                dataList.add(
-                    HealthData(
-                        progress = (1000..5000).random(),
-                        goal = 5000,
-                        date = startDate.plusDays(i.toLong()),
-                        type = StatsNames.steps
-                    )
-                )
-
-                // Distance (0.2km to 10km)
-                dataList.add(
-                    HealthData(
-                        progress = (200..10000).random(),  // Progress in meters for consistency
-                        goal = 10000,
-                        date = startDate.plusDays(i.toLong()),
-                        type = StatsNames.distance
-                    )
-                )
-
-                // Climbed (2m to 60m)
-                dataList.add(
-                    HealthData(
-                        progress = (2..60).random(),
-                        goal = 60,
-                        date = startDate.plusDays(i.toLong()),
-                        type = StatsNames.climbed
-                    )
+            val initialData = types.map {
+                HealthData(
+                    date = today,
+                    type = it,
+                    goal = when (it) {
+                        StatsNames.move -> 500
+                        StatsNames.stand -> 16
+                        StatsNames.exercise -> 360
+                        StatsNames.steps -> 5000
+                        StatsNames.distance -> 10000
+                        StatsNames.climbed -> 60
+                        else -> 0
+                    },
+                    progress = 0
                 )
             }
 
-            return dataList
+            // Check if there's any data in the database
+            if (dao.loadHealthDataForDay(today).firstOrNull().isNullOrEmpty()) {
+                dao.insertAll(initialData)
+            }
         }
-
     }
 }

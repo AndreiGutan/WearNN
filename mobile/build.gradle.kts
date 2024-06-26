@@ -9,13 +9,13 @@ android {
 
         signingConfigs {
         getByName("debug") {
-            storeFile = file("C:\\Users\\Dell 5521\\StudioProjects\\WearNN\\WearNNKey.jks")
+            storeFile = file("D:\\AndroidStudioProjects\\HackatchonWatch\\WearNN\\WearNNKey.jks")
             storePassword = "WearNNKey!"
             keyPassword = "WearNNKey!"
             keyAlias = "WearNNKey"
         }
         create("NNKey") {
-            storeFile = file("C:\\Users\\Dell 5521\\StudioProjects\\WearNN\\WearNNKey.jks")
+            storeFile = file("D:\\AndroidStudioProjects\\HackatchonWatch\\WearNN\\WearNNKey.jks")
             storePassword = "WearNNKey!"
             keyPassword = "WearNNKey!"
             keyAlias = "WearNNKey"
@@ -26,8 +26,8 @@ android {
 
     defaultConfig {
         applicationId = "com.example.wearnn"
-        minSdk = 33
-        targetSdk = 33
+        minSdk = 26
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -93,6 +93,5 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    //wearApp(project(":wear"))
 
 }
