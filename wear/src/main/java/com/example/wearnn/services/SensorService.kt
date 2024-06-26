@@ -1,5 +1,3 @@
-// File: SensorService.kt
-
 package com.example.wearnn.services
 
 import android.app.Service
@@ -10,53 +8,111 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.IBinder
 import android.util.Log
-import com.example.wearnn.data.database.AppDatabase
 import com.example.wearnn.utils.ViewModelProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.Duration
+import java.time.Instant
 
 class SensorService : Service(), SensorEventListener {
     private lateinit var sensorManager: SensorManager
     private var stepSensor: Sensor? = null
-    private lateinit var database: AppDatabase
+    private var heartRateSensor: Sensor? = null
+
+    private var steps: Int = 0
+    private var previousSteps: Int = 0
+    private var heartRate: Int = 0
+    private var inTargetZone = false
+    private var targetZoneStartTime: Instant? = null
 
     override fun onCreate() {
         super.onCreate()
         Log.d("SENSOR", "Service Created")
         sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
         stepSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
-        database = AppDatabase.getDatabase(this)
+        heartRateSensor = sensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d("SENSOR", "Service Started")
-        registerSensor()
+        registerSensors()
         return START_STICKY
     }
 
-    private fun registerSensor() {
-        Log.d("SENSOR", "Registering Sensor")
-        if (stepSensor == null) {
-            Log.d("SENSOR", "Sensor is null")
-        } else {
-            Log.d("SENSOR", "Sensor is not null")
-            sensorManager.registerListener(this, stepSensor, SensorManager.SENSOR_DELAY_NORMAL)
+    private fun registerSensors() {
+        stepSensor?.let {
+            sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL)
+        }
+        heartRateSensor?.let {
+            sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL)
         }
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
-        if (event?.sensor?.type == Sensor.TYPE_STEP_COUNTER) {
-            val steps = event.values[0].toInt()
-            Log.d("SENSOR", "Steps detected: $steps")
-            updateSteps(steps)
+        event?.let {
+            when (it.sensor.type) {
+                Sensor.TYPE_STEP_COUNTER -> {
+                    steps = it.values[0].toInt()
+                    val newSteps = steps - previousSteps
+                    previousSteps = steps
+
+                    if (newSteps > 0) {
+                        Log.d("SENSOR", "Steps detected: $newSteps")
+                        ViewModelProvider.healthViewModel?.updateSteps(steps)
+                        updateDistance(newSteps)
+                        updateCaloriesBurned(newSteps)
+                    }
+                }
+                Sensor.TYPE_HEART_RATE -> {
+                    heartRate = it.values[0].toInt()
+                    Log.d("SENSOR", "Heart rate detected: $heartRate")
+                    updateExercise()
+                }
+                else -> {}
+            }
         }
     }
 
-    private fun updateSteps(steps: Int) {
-        CoroutineScope(Dispatchers.Main).launch {
-            ViewModelProvider.healthViewModel.updateSteps(steps)
+    private fun updateCaloriesBurned(newSteps: Int) {
+        val caloriesPerStep = 0.05
+        val heartRateFactor = when {
+            heartRate <= 70 -> 1.0
+            heartRate in 71..80 -> 1.0
+            heartRate in 81..90 -> 1.0
+            heartRate in 91..100 -> 1.0
+            heartRate > 100 -> 1.0
+            else -> 1.0
         }
+
+        val caloriesBurned = newSteps * caloriesPerStep * heartRateFactor
+        ViewModelProvider.healthViewModel?.addCalories(caloriesBurned.toInt())
+    }
+
+    private fun updateExercise() {
+        val targetZoneMin = 66
+        val targetZoneMax = 162
+
+        if (heartRate in targetZoneMin..targetZoneMax) {
+            if (!inTargetZone) {
+                inTargetZone = true
+                targetZoneStartTime = Instant.now()
+            }
+        } else {
+            if (inTargetZone) {
+                inTargetZone = false
+                val durationInZone = Duration.between(targetZoneStartTime, Instant.now()).toMinutes().toInt()
+                targetZoneStartTime = null
+                ViewModelProvider.healthViewModel?.updateExercise(durationInZone)
+            }
+        }
+    }
+
+    private fun updateDistance(newSteps: Int) {
+        val userHeight = 1.75  // in meters
+        val strideLength = userHeight * 0.78  // assuming walking
+        val distance = (newSteps * strideLength).toInt()  // distance in meters
+        ViewModelProvider.healthViewModel?.addDistance(distance)
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}

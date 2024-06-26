@@ -1,3 +1,6 @@
+package com.example.wearnn.presentation.ui.composables.statsPerWeek
+
+import ActivityStat
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.horizontalScroll
@@ -62,7 +65,8 @@ fun Screen1Week(healthViewModel: HealthViewModel) {
             modifier = Modifier.padding(bottom = 4.dp)
         )
         Row(
-            modifier = Modifier.horizontalScroll(rememberScrollState())
+            modifier = Modifier
+                .horizontalScroll(rememberScrollState())
         ) {
             filteredWeeklyData.zip(listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")).forEach { (data, day) ->
                 MiniDayStats(healthData = data, day = day)
@@ -106,7 +110,8 @@ fun MiniDayStats(healthData: List<HealthData>, day: String, modifier: Modifier =
     )
 
     Column(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .width(30.dp), // Ensure each day has enough space
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
@@ -150,5 +155,3 @@ fun MiniDayStats(healthData: List<HealthData>, day: String, modifier: Modifier =
         }
     }
 }
-
-

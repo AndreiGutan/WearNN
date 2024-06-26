@@ -1,12 +1,9 @@
 package com.example.wearnn.activities
 
 import HealthViewModelFactory
-import Screen1Week
 import Screen3Week
-import android.app.Application
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,8 +21,11 @@ import com.example.wearnn.presentation.ui.composables.statsPerWeek.Screen2Week
 import com.example.wearnn.presentation.ui.composables.statsPerDay.Screen3Day
 import com.example.wearnn.viewModel.HealthViewModel
 import com.example.wearnn.data.database.AppDatabase
-import com.example.wearnn.services.SensorService
 import com.example.wearnn.utils.PermissionUtils
+import android.content.Intent
+import android.content.pm.PackageManager
+import com.example.wearnn.presentation.ui.composables.statsPerWeek.Screen1Week
+import com.example.wearnn.services.SensorService
 import com.example.wearnn.utils.ViewModelProvider as CustomViewModelProvider
 
 class MainActivity : ComponentActivity() {

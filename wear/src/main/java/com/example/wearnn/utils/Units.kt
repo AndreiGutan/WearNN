@@ -7,4 +7,5 @@ object Units {
     const val steps = "steps"
     const val kilometers = "km"
     const val meters = "m"
+    const val bpm = "bpm"
 }

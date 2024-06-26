@@ -1,7 +1,6 @@
 package com.example.wearnn.presentation.ui.composables.statsPerDay
 
 import ActivityStat
-import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -14,12 +13,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
-import com.example.wearnn.R
-
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material.Text
+import com.example.wearnn.R
 import com.example.wearnn.utils.AppColors
 import com.example.wearnn.utils.AppFonts
 import com.example.wearnn.utils.StatsNames
@@ -114,7 +112,6 @@ fun ActivityRow2Day(activityStat: ActivityStat) {
         }
     }
 }
-
 
 @Composable
 fun Screen2Day(viewModel: HealthViewModel) {
