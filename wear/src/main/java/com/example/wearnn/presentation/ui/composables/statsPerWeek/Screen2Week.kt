@@ -34,8 +34,6 @@ fun ActivityRowWeeklyAvg(activityStat: ActivityStat) {
         println("Debug: Loading icon for ${activityStat.title}")
     }
 
-
-
     val displayText = if (activityStat.unit == Units.kilometers) {
         val kilometers = activityStat.progress / 1000.0  // Convert meters to kilometers
         "${String.format("%.2f", kilometers)} km"  // Format to two decimal places
@@ -80,6 +78,11 @@ fun ActivityRowWeeklyAvg(activityStat: ActivityStat) {
 fun Screen2Week(viewModel: HealthViewModel) {
     val weekStats by viewModel.weeklyAverageStats.collectAsState()
 
+    // Filter for specific activities: steps, distance, climbed
+    val filteredWeekStats = weekStats.filter {
+        it.title in listOf(StatsNames.avgsteps, StatsNames.avgdistance, StatsNames.avgclimbed)
+    }
+
     Column(
         modifier = Modifier
             .padding(top = 20.dp)
@@ -91,7 +94,7 @@ fun Screen2Week(viewModel: HealthViewModel) {
             fontFamily = AppFonts.bebasNeueFont,
             style = TextStyle(fontSize = 29.sp)
         )
-        weekStats.forEach { activityStat ->
+        filteredWeekStats.forEach { activityStat ->
             ActivityRowWeeklyAvg(activityStat)
         }
     }
