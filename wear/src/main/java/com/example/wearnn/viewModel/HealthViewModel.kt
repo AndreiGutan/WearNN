@@ -17,7 +17,7 @@ import java.time.LocalDate
 
 class HealthViewModel(private val healthDataDao: HealthDataDao) : ViewModel() {
 
-    private val _dailyData = MutableStateFlow<List<HealthData>>(emptyList())
+    private val _dailyData = MutableStateFlow(initializeEmptyDataForDay(LocalDate.now()))
     val dailyData: StateFlow<List<HealthData>> = _dailyData
     private val _weeklyAverageStats = MutableStateFlow<List<ActivityStat>>(emptyList())
     val weeklyAverageStats: StateFlow<List<ActivityStat>> = _weeklyAverageStats
@@ -25,6 +25,7 @@ class HealthViewModel(private val healthDataDao: HealthDataDao) : ViewModel() {
     val configuredDailyData: StateFlow<List<ActivityStat>> = _configuredDailyData
     private val _weeklyData = MutableStateFlow<List<List<HealthData>>>(emptyList())
     val weeklyData: StateFlow<List<List<HealthData>>> = _weeklyData
+    private var challengeViewModel: ChallengeViewModel? = null
 
     init {
         Log.d("HealthViewModel", "Initialization")
@@ -42,7 +43,7 @@ class HealthViewModel(private val healthDataDao: HealthDataDao) : ViewModel() {
             try {
                 val today = LocalDate.now()
                 healthDataDao.loadHealthDataForDay(today).collect { data ->
-                    _dailyData.value = data.ifEmpty { initializeEmptyDataForDay(today) }
+                    _dailyData.value = if (data.isEmpty()) initializeEmptyDataForDay(today) else data
                     convertHealthDataToActivityStats()
                     _isLoading.value = false
                 }
@@ -208,6 +209,7 @@ class HealthViewModel(private val healthDataDao: HealthDataDao) : ViewModel() {
             healthData.progress += calories
             healthDataDao.insertOrUpdate(healthData)
             loadTodayData()
+            challengeViewModel?.addCalories(calories)  // Update challenge calories
         }
     }
 
@@ -273,5 +275,9 @@ class HealthViewModel(private val healthDataDao: HealthDataDao) : ViewModel() {
             healthDataDao.insertOrUpdate(healthData)
             loadTodayData()
         }
+    }
+
+    fun setChallengeViewModel(challengeViewModel: ChallengeViewModel) {
+        this.challengeViewModel = challengeViewModel
     }
 }

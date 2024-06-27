@@ -34,7 +34,7 @@ fun AnimatedHeart(modifier: Modifier = Modifier) {
         ), label = "animationParams"
     )
 
-    val svgImage: ImageVector = ImageVector.vectorResource(id = R.drawable.nn_icon_heart)
+    val svgImage: ImageVector = ImageVector.vectorResource(id = R.drawable.ic_move)
 
     Box(
         modifier = modifier

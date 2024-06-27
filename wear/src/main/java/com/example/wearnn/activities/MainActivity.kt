@@ -24,6 +24,7 @@ import com.example.wearnn.data.database.AppDatabase
 import com.example.wearnn.utils.PermissionUtils
 import android.content.Intent
 import android.content.pm.PackageManager
+import com.example.wearnn.presentation.ui.composables.challenges.ChallengeScreen
 import com.example.wearnn.presentation.ui.composables.statsPerWeek.Screen1Week
 import com.example.wearnn.services.SensorService
 import com.example.wearnn.utils.ViewModelProvider as CustomViewModelProvider
